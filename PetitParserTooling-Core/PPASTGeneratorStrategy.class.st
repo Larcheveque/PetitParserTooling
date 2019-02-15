@@ -17,8 +17,8 @@ Class {
 { #category : #'as yet unclassified' }
 PPASTGeneratorStrategy class >> pwbStrategy [
 	^ self new
-		rulesToFlatten: #(identifier basicType);
-		rulesToIgnore: #();
+		rulesToFlatten: #(identifier basicType booleanValue number parametrizedType string);
+		rulesToIgnore: #(blank);
 		parserPackage: #'PowerBuilder-Parser-Core';
 		parserClass: #PWBDataWindowParser;
 		astPackage: #'PowerBuilder-Parser-AST';
@@ -26,6 +26,11 @@ PPASTGeneratorStrategy class >> pwbStrategy [
 		visitorPackage: #'PowerBuilder-Parser-Visitor';
 		visitorClass: #PWBASTAbstractVisitor;
 		yourself
+]
+
+{ #category : #accessing }
+PPASTGeneratorStrategy >> astNodeClassNameForRule: aRule [
+	^ self astPrefix , aRule capitalized
 ]
 
 { #category : #accessing }
@@ -46,6 +51,11 @@ PPASTGeneratorStrategy >> astPrefix [
 { #category : #accessing }
 PPASTGeneratorStrategy >> astPrefix: anObject [
 	astPrefix := anObject
+]
+
+{ #category : #parser }
+PPASTGeneratorStrategy >> ensureParserClassExist [
+	self shouldBeImplemented.
 ]
 
 { #category : #dispatch }
