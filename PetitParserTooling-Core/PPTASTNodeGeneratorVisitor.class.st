@@ -23,6 +23,11 @@ PPTASTNodeGeneratorVisitor >> createAttributeAndAccessorsFor: anAttributeName in
 ]
 
 { #category : #visit }
+PPTASTNodeGeneratorVisitor >> visitPP2ActionNode: aPP2ActionNode [ 
+	^ aPP2ActionNode child acceptVisitor: self
+]
+
+{ #category : #visit }
 PPTASTNodeGeneratorVisitor >> visitPP2ChoiceNode: aPP2ChoiceNode [
 	| key |
 	"Should manage if only one rule is obtained from childen visit"
@@ -49,6 +54,11 @@ PPTASTNodeGeneratorVisitor >> visitPP2NotNode: aPP2NotNode [
 { #category : #visit }
 PPTASTNodeGeneratorVisitor >> visitPP2OptionalNode: aPP2OptionalNode [ 
 	^ aPP2OptionalNode child acceptVisitor: self
+]
+
+{ #category : #visit }
+PPTASTNodeGeneratorVisitor >> visitPP2PossesiveRepeatingNode: aPP2PossesiveRepeatingNode [ 
+	^ (aPP2PossesiveRepeatingNode child acceptVisitor: self), 's' 
 ]
 
 { #category : #visit }

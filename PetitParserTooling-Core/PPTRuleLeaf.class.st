@@ -1,6 +1,6 @@
 Class {
 	#name : #PPTRuleLeaf,
-	#superclass : #Object,
+	#superclass : #PPTAbstractRuleStructure,
 	#instVars : [
 		'ruleName'
 	],
@@ -14,9 +14,24 @@ PPTRuleLeaf class >> name: aString [
 		yourself
 ]
 
+{ #category : #testing }
+PPTRuleLeaf >> isLeaf [
+	^ true
+]
+
 { #category : #accessing }
 PPTRuleLeaf >> methodCode [
-	^ self ruleName, ': production'
+	^ self ruleName, ': production; yourself'
+]
+
+{ #category : #generation }
+PPTRuleLeaf >> methodCodePluralizeWith: productionIdentifier [ 
+	^ self ruleName , 's: ' , productionIdentifier
+]
+
+{ #category : #generation }
+PPTRuleLeaf >> methodCodeWith: productionIdentifier [
+	^ self ruleName , ': ' , productionIdentifier
 ]
 
 { #category : #accessing }

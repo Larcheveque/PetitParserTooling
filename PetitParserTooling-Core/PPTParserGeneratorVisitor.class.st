@@ -24,6 +24,46 @@ PPTParserGeneratorVisitor >> visitPP2DelegateNode: aPP2DelegateNode [
 ]
 
 { #category : #visit }
+PPTParserGeneratorVisitor >> visitPP2NotNode: aPP2NotNode [ 
+	^ nil
+]
+
+{ #category : #visit }
+PPTParserGeneratorVisitor >> visitPP2OptionalNode: aPP2OptionalNode [
+	^ (aPP2OptionalNode child acceptVisitor: self)
+		ifNotNil: [ :result | 
+			PPTRuleOptional new
+				rule: result;
+				yourself ]
+]
+
+{ #category : #visit }
+PPTParserGeneratorVisitor >> visitPP2PossesiveRepeatingNode: aPP2PossesiveRepeatingNode [
+	^ PPTRuleRepeating new
+		rule: (aPP2PossesiveRepeatingNode child acceptVisitor: self);
+		yourself
+]
+
+{ #category : #visit }
+PPTParserGeneratorVisitor >> visitPP2PredicateSequenceNode: aPP2PredicateSequenceNode [ 
+	^ nil
+]
+
+{ #category : #visit }
+PPTParserGeneratorVisitor >> visitPP2SequenceNode: aPP2SequenceNode [
+	^ PPTRulesWithPosition
+		createFrom:
+			((aPP2SequenceNode children
+				collectWithIndex: [ :aChild :index | 
+					(aChild acceptVisitor: self)
+						ifNotNil: [ :result | 
+							PPTRuleNodePosition new
+								position: index;
+								node: result;
+								yourself ] ]) reject: #isNil)
+]
+
+{ #category : #visit }
 PPTParserGeneratorVisitor >> visitPPRule: aPP2DelegateNode [
 	| ruleName parserClass |
 	ruleName := aPP2DelegateNode name.
@@ -39,5 +79,5 @@ PPTParserGeneratorVisitor >> visitPPRule: aPP2DelegateNode [
 				, (self generationStrategy astNodeClassNameForRule: ruleName)
 				, ' new '
 				, (aPP2DelegateNode child acceptVisitor: self) methodCode
-				, ' ; yourself ]'
+				, ' ]'
 ]
