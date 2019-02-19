@@ -13,10 +13,16 @@ PPTRuleNodePosition >> attributesToCreate [
 	^ self node attributesToCreate 
 ]
 
+{ #category : #'as yet unclassified' }
+PPTRuleNodePosition >> methodCodePluralizeWith: aProductionName [ 
+	^ node
+		methodCodePluralizeWith: '(' , aProductionName , ' at: ' , self position asString , ')'
+]
+
 { #category : #generation }
 PPTRuleNodePosition >> methodCodeWith: aProductionName [
-	^ (node methodCodeWith: '(' , aProductionName) , ' at: '
-		, self position asString , ')'
+	^ node
+		methodCodeWith: '(' , aProductionName , ' at: ' , self position asString , ')'
 ]
 
 { #category : #accessing }

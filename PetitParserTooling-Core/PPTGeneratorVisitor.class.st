@@ -3,7 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'generationStrategy',
-		'ruleReifications'
+		'ruleReifications',
+		'ruleRenaming'
 	],
 	#category : #'PetitParserTooling-Core'
 }
@@ -24,7 +25,14 @@ PPTGeneratorVisitor >> configureOn: aRuleMethod [
 				select: [ :aPragma | aPragma key = 'reify:into:' ]
 				thenCollect: [ :aValidPragma | 
 					(aValidPragma arguments first reject: [ :el | el = #/ ])
-						-> aValidPragma arguments second ]) asDictionary
+						-> aValidPragma arguments second ]) asDictionary.
+	self
+		ruleRenaming:
+			(aRuleMethod pragmas
+				select: [ :aPragma | aPragma key = 'rename:into:' ]
+				thenCollect:
+					[ :aValidPragma | aValidPragma arguments first -> aValidPragma arguments second ])
+				asDictionary
 ]
 
 { #category : #accessing }
@@ -57,4 +65,14 @@ PPTGeneratorVisitor >> ruleReifications [
 { #category : #accessing }
 PPTGeneratorVisitor >> ruleReifications: anObject [
 	ruleReifications := anObject
+]
+
+{ #category : #accessing }
+PPTGeneratorVisitor >> ruleRenaming [
+	^ ruleRenaming
+]
+
+{ #category : #accessing }
+PPTGeneratorVisitor >> ruleRenaming: anObject [
+	ruleRenaming := anObject
 ]

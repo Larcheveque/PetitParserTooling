@@ -12,13 +12,19 @@ Class {
 
 { #category : #creation }
 PPTASTGenerator class >> createASTNodeForRule: aRule ruleStructure: aRuleStructure generationStrategy: aGenerationStrategy [
-	| class |
-	class := aGenerationStrategy createAstNodeClass: aRule.
+	| astClass |
+	astClass := aGenerationStrategy createAstNodeClass: aRule.
 	aRuleStructure attributesToCreate
 		do: [ :subRuleName | 
 			aGenerationStrategy
 				createAttributeAndAccessorsFor: subRuleName
-				inClass: class ]
+				inClass: astClass ].
+	astClass
+		compile:
+			'acceptVisitor: aVisitor
+	<generated>
+	^ aVisitor visit' , astClass name , ': self'
+		classified: #visiting
 ]
 
 { #category : #generation }
@@ -159,9 +165,17 @@ PPTASTGenerator class >> generateEverythingFrom: aGrammarClass generationStrateg
 
 { #category : #construction }
 PPTASTGenerator class >> obtainRuleStructureFor: aRule generationStrategy: aPPASTGeneratorStrategy grammar: aGrammarPPInstance [
-	^ (aGrammarPPInstance productionAt: aRule) child
+	^ [ (aGrammarPPInstance productionAt: aRule) child
 		accept:
 			(PPTRuleStructureBuilderVisitor
 				newWithStrategy: aPPASTGeneratorStrategy
-				onRule: (aGrammarPPInstance class lookupSelector: aRule))
+				onRule: (aGrammarPPInstance class lookupSelector: aRule)) ]
+		on: PPTChoiceReificationNotDefined
+		do: [ :exception | 
+			exception contextNode = (aGrammarPPInstance productionAt: aRule) child
+				ifTrue:
+					[ "In this case, the choice that is not reify is the direct child of the rule, so we will use directly the choice as a leaf" PPTRuleLeaf name: aRule ]
+				ifFalse: [ exception
+						rule: aRule;
+						signal ] ]
 ]

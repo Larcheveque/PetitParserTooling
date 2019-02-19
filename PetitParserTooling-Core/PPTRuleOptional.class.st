@@ -16,7 +16,10 @@ PPTRuleOptional >> attributesToCreate [
 PPTRuleOptional >> methodCodeWith: productionIdentifier [
 	^ self rule isLeaf
 		ifTrue: [ self rule methodCodeWith: productionIdentifier ]
-		ifFalse: [ Halt now	"should manage with ifNotNil: the optional branch" ]
+		ifFalse: [ self rule
+				methodCodeWith:
+					'(' , productionIdentifier , ' ifNotNil: [ ' , productionIdentifier
+						, ' ])' ]
 ]
 
 { #category : #accessing }

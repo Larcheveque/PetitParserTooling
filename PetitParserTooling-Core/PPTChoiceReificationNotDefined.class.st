@@ -7,15 +7,38 @@ Class {
 	#name : #PPTChoiceReificationNotDefined,
 	#superclass : #Error,
 	#instVars : [
-		'rulesCombination'
+		'rulesCombination',
+		'rule',
+		'contextNode'
 	],
 	#category : #'PetitParserTooling-Core'
 }
 
 { #category : #accessing }
+PPTChoiceReificationNotDefined >> contextNode [
+	^ contextNode
+]
+
+{ #category : #accessing }
+PPTChoiceReificationNotDefined >> contextNode: anObject [
+	contextNode := anObject
+]
+
+{ #category : #accessing }
 PPTChoiceReificationNotDefined >> messageText [
-	^ 'You should define a pragma in your rule to express how the multiple choice (/) should be named in a unique name: '
-		, self rulesCombination asString
+	^ '#' , self rule , ' - {' , self rulesCombination asString
+		,
+			' - You should define a pragma in your rule to express how the multiple choice (/) should be named in a unique name'
+]
+
+{ #category : #accessing }
+PPTChoiceReificationNotDefined >> rule [
+	^ rule
+]
+
+{ #category : #accessing }
+PPTChoiceReificationNotDefined >> rule: anObject [
+	rule := anObject
 ]
 
 { #category : #accessing }

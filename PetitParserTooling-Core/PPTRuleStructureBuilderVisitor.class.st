@@ -34,6 +34,7 @@ PPTRuleStructureBuilderVisitor >> visitChoice: aPP2ChoiceNode [
 								at: (key collect: #ruleName)
 								ifAbsent: [ PPTChoiceReificationNotDefined new
 										rulesCombination: key;
+										contextNode: aPP2ChoiceNode;
 										signal ]) ] ]
 ]
 
@@ -42,11 +43,25 @@ PPTRuleStructureBuilderVisitor >> visitDelegate: aPP2DelegateNode [
 	^ self generationStrategy
 		if: aPP2DelegateNode name
 		shouldBeIgnored: [ nil ]
-		else: [ PPTRuleLeaf name: aPP2DelegateNode name ]
+		else: [ PPTRuleLeaf
+				name:
+					(self ruleRenaming
+						at: aPP2DelegateNode name
+						ifAbsent: [ aPP2DelegateNode name ]) ]
+]
+
+{ #category : #visit }
+PPTRuleStructureBuilderVisitor >> visitFlatten: aPP2FlattenNode [ 
+	^ aPP2FlattenNode child accept: self
 ]
 
 { #category : #visit }
 PPTRuleStructureBuilderVisitor >> visitLiteralObject: aPP2LiteralObjectNode [ 
+	^ nil
+]
+
+{ #category : #visit }
+PPTRuleStructureBuilderVisitor >> visitLiteralSequence: aPP2LiteralSequenceNode [ 
 	^ nil
 ]
 
@@ -65,10 +80,17 @@ PPTRuleStructureBuilderVisitor >> visitOptional: aPP2OptionalNode [
 ]
 
 { #category : #visit }
-PPTRuleStructureBuilderVisitor >> visitPossesiveRepeating: aPP2PossesiveRepeatingNode [ 
-	^ PPTRuleRepeating new
-		rule: (aPP2PossesiveRepeatingNode child accept: self);
-		yourself
+PPTRuleStructureBuilderVisitor >> visitPossesiveRepeating: aPP2PossesiveRepeatingNode [
+	^ (aPP2PossesiveRepeatingNode child accept: self)
+		ifNotNil: [ :childRule | 
+			PPTRuleRepeating new
+				rule: childRule;
+				yourself ]
+]
+
+{ #category : #visit }
+PPTRuleStructureBuilderVisitor >> visitPredicateObject: aPP2PredicateObjectNode [ 
+	^ nil
 ]
 
 { #category : #visit }

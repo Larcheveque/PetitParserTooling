@@ -21,11 +21,30 @@ PPTRulesWithPosition >> attributesToCreate [
 	^ self rulesWithPosition flatCollect: #attributesToCreate
 ]
 
+{ #category : #'as yet unclassified' }
+PPTRulesWithPosition >> methodCodePluralizeWith: aString [ 
+	^ String
+		streamContents: [ :s | 
+			s
+				nextPutAll:
+					((self rulesWithPosition
+						collect: [ :aRule | aRule methodCodePluralizeWith: aString ])
+						joinUsing: '; ').
+			self rulesWithPosition size > 1
+				ifTrue: [ s nextPutAll: '; yourself' ] ]
+]
+
 { #category : #creation }
 PPTRulesWithPosition >> methodCodeWith: aString [
-	^ ((self rulesWithPosition
-		collect: [ :aRule | aRule methodCodeWith: aString ]) joinUsing: '; ')
-		, '; yourself'
+	^ String
+		streamContents: [ :s | 
+			s
+				nextPutAll:
+					((self rulesWithPosition
+						collect: [ :aRule | aRule methodCodeWith: aString ])
+						joinUsing: '; ').
+			self rulesWithPosition size > 1
+				ifTrue: [ s nextPutAll: '; yourself' ] ]
 ]
 
 { #category : #accessing }

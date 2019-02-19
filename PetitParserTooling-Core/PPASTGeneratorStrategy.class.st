@@ -17,8 +17,8 @@ Class {
 { #category : #'as yet unclassified' }
 PPASTGeneratorStrategy class >> pwbStrategy [
 	^ self new
-		rulesToFlatten: #(identifier basicType booleanValue number parametrizedType string);
-		rulesToIgnore: #(blank);
+		rulesToFlatten: #(identifier basicType booleanValue number parametrizedType string constant defaultVariable exitStatement uncheckedIdentifier defaultEventType graphicComponentToken generatorToken formatType);
+		rulesToIgnore: #(blank spaces reservedKeyword newlines);
 		parserPackage: #'PowerBuilder-Parser-Core';
 		parserClass: #PWBDataWindowParser;
 		astPackage: #'PowerBuilder-Parser-AST';

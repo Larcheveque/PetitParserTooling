@@ -39,6 +39,13 @@ PPTRuleLeaf >> methodCodeWith: productionIdentifier [
 	^ self ruleName , ': ' , productionIdentifier
 ]
 
+{ #category : #properties }
+PPTRuleLeaf >> printOn: aStream [
+	super printOn: aStream.
+	aStream space.
+	aStream nextPutAll: self ruleName
+]
+
 { #category : #accessing }
 PPTRuleLeaf >> ruleName [
 	^ ruleName
