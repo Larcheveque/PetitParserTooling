@@ -1,0 +1,96 @@
+Class {
+	#name : #PPTRuleStructureBuilderVisitor,
+	#superclass : #PPTGeneratorVisitor,
+	#category : #'PetitParserTooling-Core'
+}
+
+{ #category : #visit }
+PPTRuleStructureBuilderVisitor >> visitAction: aPP2ActionNode [
+	^ (self isASeparatedBy: aPP2ActionNode)
+		ifTrue: [ PPTRuleSeparatedBy new
+				rule: (aPP2ActionNode child children first accept: self);
+				separator:
+					(aPP2ActionNode child children second children first children first
+						accept: self);
+				yourself ]
+		ifFalse: [ aPP2ActionNode child acceptVisitor: self ]
+]
+
+{ #category : #visit }
+PPTRuleStructureBuilderVisitor >> visitChoice: aPP2ChoiceNode [
+	| key |
+	key := aPP2ChoiceNode children
+		collect: [ :aChild | aChild accept: self ]
+		thenReject: #isNil.
+	key
+		ifEmpty: [ ^ nil ]
+		ifNotEmpty: [ key size = aPP2ChoiceNode children size
+				ifFalse: [ self
+						signal:
+							'The grammar should not have a choice between interesting stuff and rejected ones' ]
+				ifTrue: [ ^ PPTRuleLeaf
+						name:
+							(self ruleReifications
+								at: (key collect: #ruleName)
+								ifAbsent: [ PPTChoiceReificationNotDefined new
+										rulesCombination: key;
+										signal ]) ] ]
+]
+
+{ #category : #visit }
+PPTRuleStructureBuilderVisitor >> visitDelegate: aPP2DelegateNode [
+	^ self generationStrategy
+		if: aPP2DelegateNode name
+		shouldBeIgnored: [ nil ]
+		else: [ PPTRuleLeaf name: aPP2DelegateNode name ]
+]
+
+{ #category : #visit }
+PPTRuleStructureBuilderVisitor >> visitLiteralObject: aPP2LiteralObjectNode [ 
+	^ nil
+]
+
+{ #category : #visit }
+PPTRuleStructureBuilderVisitor >> visitNot: aPP2NotNode [ 
+	^ nil
+]
+
+{ #category : #visit }
+PPTRuleStructureBuilderVisitor >> visitOptional: aPP2OptionalNode [ 
+	^ (aPP2OptionalNode child accept: self)
+		ifNotNil: [ :result | 
+			PPTRuleOptional new
+				rule: result;
+				yourself ]
+]
+
+{ #category : #visit }
+PPTRuleStructureBuilderVisitor >> visitPossesiveRepeating: aPP2PossesiveRepeatingNode [ 
+	^ PPTRuleRepeating new
+		rule: (aPP2PossesiveRepeatingNode child accept: self);
+		yourself
+]
+
+{ #category : #visit }
+PPTRuleStructureBuilderVisitor >> visitPredicateSequence: aPP2PredicateSequenceNode [ 
+	^ nil
+]
+
+{ #category : #visit }
+PPTRuleStructureBuilderVisitor >> visitSequence: aPP2SequenceNode [ 
+	^ PPTRulesWithPosition
+		createFrom:
+			((aPP2SequenceNode children
+				collectWithIndex: [ :aChild :index | 
+					(aChild accept: self)
+						ifNotNil: [ :result | 
+							PPTRuleNodePosition new
+								position: index;
+								node: result;
+								yourself ] ]) reject: #isNil)
+]
+
+{ #category : #visit }
+PPTRuleStructureBuilderVisitor >> visitTrimming: aPP2TrimmingNode [ 
+	^ aPP2TrimmingNode child accept: self
+]

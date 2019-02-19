@@ -8,9 +8,14 @@ Class {
 	#category : #'PetitParserTooling-Core'
 }
 
+{ #category : #properties }
+PPTRuleNodePosition >> attributesToCreate [
+	^ self node attributesToCreate 
+]
+
 { #category : #generation }
-PPTRuleNodePosition >> methodCode [
-	^ (node methodCodeWith: '(production') , ' at: '
+PPTRuleNodePosition >> methodCodeWith: aProductionName [
+	^ (node methodCodeWith: '(' , aProductionName) , ' at: '
 		, self position asString , ')'
 ]
 

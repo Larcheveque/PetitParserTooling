@@ -53,9 +53,22 @@ PPASTGeneratorStrategy >> astPrefix: anObject [
 	astPrefix := anObject
 ]
 
-{ #category : #parser }
-PPASTGeneratorStrategy >> ensureParserClassExist [
-	self shouldBeImplemented.
+{ #category : #creation }
+PPASTGeneratorStrategy >> createAstNodeClass: aRule [
+	^ Object
+		subclass: (self astNodeClassNameForRule: aRule)
+		instanceVariableNames: ''
+		classVariableNames: ''
+		package: self astPackage
+]
+
+{ #category : #generation }
+PPASTGeneratorStrategy >> createAttributeAndAccessorsFor: anAttributeName inClass: class [
+	class addInstVarNamed: anAttributeName.
+	(RBCreateAccessorsForVariableRefactoring
+		variable: anAttributeName
+		class: class
+		classVariable: false) execute
 ]
 
 { #category : #dispatch }
@@ -64,6 +77,13 @@ PPASTGeneratorStrategy >> if: aRuleName shouldBeFlatten: aFlattenBlock else: aDe
 		ifTrue: [ aFlattenBlock value ]
 		ifFalse: [ (self rulesToIgnore includes: aRuleName)
 				ifFalse: [ aDefaultBlock value ] ]
+]
+
+{ #category : #dispatch }
+PPASTGeneratorStrategy >> if: aRuleName shouldBeIgnored: ignoreBlock else: aDefaultBlock [
+	^ (self rulesToIgnore includes: aRuleName)
+		ifTrue: [ ignoreBlock value ]
+		ifFalse: [ aDefaultBlock value ]
 ]
 
 { #category : #accessing }

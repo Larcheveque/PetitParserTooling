@@ -7,6 +7,12 @@ Class {
 	#category : #'PetitParserTooling-Core'
 }
 
+{ #category : #properties }
+PPTRuleRepeating >> attributesToCreate [
+	^ self rule attributesToCreate
+		collect: [ :attribute | attribute , 's' ]
+]
+
 { #category : #generation }
 PPTRuleRepeating >> methodCodeWith: aString [ 
 	^ self rule methodCodePluralizeWith: aString

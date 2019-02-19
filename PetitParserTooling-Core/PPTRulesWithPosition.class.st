@@ -16,9 +16,16 @@ PPTRulesWithPosition class >> createFrom: anArray [
 				yourself ]
 ]
 
-{ #category : #generation }
-PPTRulesWithPosition >> methodCode [
-	^ ((self rulesWithPosition collect: #methodCode) joinUsing: '; '), '; yourself'
+{ #category : #properties }
+PPTRulesWithPosition >> attributesToCreate [
+	^ self rulesWithPosition flatCollect: #attributesToCreate
+]
+
+{ #category : #creation }
+PPTRulesWithPosition >> methodCodeWith: aString [
+	^ ((self rulesWithPosition
+		collect: [ :aRule | aRule methodCodeWith: aString ]) joinUsing: '; ')
+		, '; yourself'
 ]
 
 { #category : #accessing }

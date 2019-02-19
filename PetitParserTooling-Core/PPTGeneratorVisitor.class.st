@@ -43,6 +43,12 @@ PPTGeneratorVisitor >> initialize [
 	self ruleReifications: Dictionary new
 ]
 
+{ #category : #testing }
+PPTGeneratorVisitor >> isASeparatedBy: aPP2ActionNode [
+	^ aPP2ActionNode child children second child children second
+		= aPP2ActionNode child children first
+]
+
 { #category : #accessing }
 PPTGeneratorVisitor >> ruleReifications [
 	^ ruleReifications

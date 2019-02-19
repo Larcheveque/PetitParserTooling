@@ -14,6 +14,11 @@ PPTRuleLeaf class >> name: aString [
 		yourself
 ]
 
+{ #category : #properties }
+PPTRuleLeaf >> attributesToCreate [
+	^ {self ruleName}
+]
+
 { #category : #testing }
 PPTRuleLeaf >> isLeaf [
 	^ true

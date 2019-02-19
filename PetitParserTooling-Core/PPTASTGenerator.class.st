@@ -10,6 +10,17 @@ Class {
 	#category : #'PetitParserTooling-Core'
 }
 
+{ #category : #creation }
+PPTASTGenerator class >> createASTNodeForRule: aRule ruleStructure: aRuleStructure generationStrategy: aGenerationStrategy [
+	| class |
+	class := aGenerationStrategy createAstNodeClass: aRule.
+	aRuleStructure attributesToCreate
+		do: [ :subRuleName | 
+			aGenerationStrategy
+				createAttributeAndAccessorsFor: subRuleName
+				inClass: class ]
+]
+
 { #category : #generation }
 PPTASTGenerator class >> createFlattenNodeForRule: aRule generationStrategy: aPPASTGeneratorStrategy [
 	| astClass |
@@ -59,29 +70,45 @@ PPTASTGenerator class >> createFlattenVisitingMethod: aRule generationStrategy: 
 		classified: #visiting
 ]
 
-{ #category : #generation }
-PPTASTGenerator class >> createNodeForRule: aRule generationStrategy: aPPASTGeneratorStrategy grammar: aGrammarPPInstance [
-	(PPTASTNodeGeneratorVisitor newWithStrategy: aPPASTGeneratorStrategy onRule: (aGrammarPPInstance class lookupSelector:  aRule))
-		visitPPRule: (aGrammarPPInstance productionAt: aRule)
-]
-
-{ #category : #generation }
-PPTASTGenerator class >> createRule: aRule inParserFollowingGenerationStrategy: aPPASTGeneratorStrategy grammar: aGrammarPPInstance [
-	(PPTParserGeneratorVisitor
-		newWithStrategy: aPPASTGeneratorStrategy
-		onRule: (aGrammarPPInstance class lookupSelector: aRule))
-		visitPPRule: (aGrammarPPInstance productionAt: aRule)
+{ #category : #creation }
+PPTASTGenerator class >> createParserForRule: aRule ruleStructure: aRuleStructure generationStrategy: aGenerationStrategy [
+	| parserClass |
+	parserClass := self class environment
+		at: aGenerationStrategy parserClass.
+	parserClass
+		compile:
+			aRule
+				,
+					'
+	<generated>
+	^ super ' , aRule , ' ==> [ :production | '
+				, (aGenerationStrategy astNodeClassNameForRule: aRule) , ' new '
+				, (aRuleStructure methodCodeWith: 'production') , ' ]'
 ]
 
 { #category : #parserGeneration }
 PPTASTGenerator class >> ensureParserClassFrom: aPPASTGeneratorStrategy existWithSuperclass: aClass [
-	[ self class environment at: aPPASTGeneratorStrategy parserClass ]
+	| parserClass |
+	parserClass := [ self class environment
+		at: aPPASTGeneratorStrategy parserClass ]
 		on: NotFound
 		do: [ aClass
 				subclass: aPPASTGeneratorStrategy parserClass
 				instanceVariableNames: ''
 				classVariableNames: ''
-				package: aPPASTGeneratorStrategy parserPackage ]
+				package: aPPASTGeneratorStrategy parserPackage ].
+	parserClass
+		compile:
+			'rejectSeparators: anArray
+	<generated>
+	^ anArray withIndexSelect: [:anElement :anIndex | anIndex odd]'
+		classified: #helpers.
+	parserClass
+		compile:
+			'selectSeparators: anArray
+	<generated>
+	^ anArray withIndexSelect: [:anElement :anIndex | anIndex even]'
+		classified: #helpers
 ]
 
 { #category : #parserGeneration }
@@ -116,22 +143,25 @@ PPTASTGenerator class >> generateEverythingFrom: aGrammarClass generationStrateg
 					self
 						createFlattenVisitingMethod: aGrammarRule
 						generationStrategy: aGenerationStrategy ]
-				else: [ self
-						createNodeForRule: aGrammarRule
+				else: [ 
+					|ruleStructure|
+					ruleStructure := self obtainRuleStructureFor: aGrammarRule 
 						generationStrategy: aGenerationStrategy
 						grammar: grammar.
-					self
-						createRule: aGrammarRule
-						inParserFollowingGenerationStrategy: aGenerationStrategy
-						grammar: grammar.
+					self createASTNodeForRule: aGrammarRule  ruleStructure: ruleStructure generationStrategy: aGenerationStrategy.
+					self createParserForRule: aGrammarRule  ruleStructure: ruleStructure generationStrategy: aGenerationStrategy.
+					
 					"self
 						createVisitingMethod: aGrammarRule
 						generationStrategy: aGenerationStrategy
 						grammar: grammar" ] ]
 ]
 
-{ #category : #'as yet unclassified' }
-PPTASTGenerator class >> obtainChildrenForRule: aGrammarRule inClass: aGrammarClass generationStrategy: aGenerationStrategy [
-	aGrammarClass new productionAt: aGrammarRule.
-	1 halt
+{ #category : #construction }
+PPTASTGenerator class >> obtainRuleStructureFor: aRule generationStrategy: aPPASTGeneratorStrategy grammar: aGrammarPPInstance [
+	^ (aGrammarPPInstance productionAt: aRule) child
+		accept:
+			(PPTRuleStructureBuilderVisitor
+				newWithStrategy: aPPASTGeneratorStrategy
+				onRule: (aGrammarPPInstance class lookupSelector: aRule))
 ]

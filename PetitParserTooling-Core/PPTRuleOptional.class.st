@@ -7,9 +7,9 @@ Class {
 	#category : #'PetitParserTooling-Core'
 }
 
-{ #category : #generation }
-PPTRuleOptional >> methodCode [
-	^ self rule isLeaf ifTrue: [ self rule methodCode ] ifFalse: [ Halt now. "should manage with ifNotNil: the optional branch" ]
+{ #category : #properties }
+PPTRuleOptional >> attributesToCreate [
+	^ self rule attributesToCreate
 ]
 
 { #category : #generation }
