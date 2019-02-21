@@ -90,6 +90,7 @@ PPTASTGenerator class >> createParserForRule: aRule ruleStructure: aRuleStructur
 	^ super ' , aRule , ' ==> [ :production | '
 				, (aGenerationStrategy astNodeClassNameForRule: aRule) , ' new '
 				, (aRuleStructure methodCodeWith: 'production') , ' ]'
+		classified: #rules
 ]
 
 { #category : #parserGeneration }
@@ -165,17 +166,8 @@ PPTASTGenerator class >> generateEverythingFrom: aGrammarClass generationStrateg
 
 { #category : #construction }
 PPTASTGenerator class >> obtainRuleStructureFor: aRule generationStrategy: aPPASTGeneratorStrategy grammar: aGrammarPPInstance [
-	^ [ (aGrammarPPInstance productionAt: aRule) child
-		accept:
-			(PPTRuleStructureBuilderVisitor
-				newWithStrategy: aPPASTGeneratorStrategy
-				onRule: (aGrammarPPInstance class lookupSelector: aRule)) ]
-		on: PPTChoiceReificationNotDefined
-		do: [ :exception | 
-			exception contextNode = (aGrammarPPInstance productionAt: aRule) child
-				ifTrue:
-					[ "In this case, the choice that is not reify is the direct child of the rule, so we will use directly the choice as a leaf" PPTRuleLeaf name: aRule ]
-				ifFalse: [ exception
-						rule: aRule;
-						signal ] ]
+	^ (PPTRuleStructureBuilderVisitor
+		newWithStrategy: aPPASTGeneratorStrategy
+		onRule: (aGrammarPPInstance class lookupSelector: aRule))
+		visitGrammarRule: (aGrammarPPInstance productionAt: aRule)
 ]

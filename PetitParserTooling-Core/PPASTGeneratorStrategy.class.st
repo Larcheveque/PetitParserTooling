@@ -15,6 +15,20 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+PPASTGeneratorStrategy class >> pwbDataWindowStrategy [
+	^ self new
+		rulesToFlatten: #(identifier basicType booleanValue number parametrizedType string constant defaultVariable exitStatement uncheckedIdentifier defaultEventType graphicComponentToken generatorToken formatType);
+		rulesToIgnore: #(blank spaces reservedKeyword newlines);
+		parserPackage: #'PowerBuilder-Parser-Core';
+		parserClass: #PWBDataWindowParser;
+		astPackage: #'PowerBuilder-Parser-AST';
+		astPrefix: #PWBAST;
+		visitorPackage: #'PowerBuilder-Parser-Visitor';
+		visitorClass: #PWBASTAbstractVisitor;
+		yourself
+]
+
+{ #category : #'as yet unclassified' }
 PPASTGeneratorStrategy class >> pwbStrategy [
 	^ self new
 		rulesToFlatten: #(identifier basicType booleanValue number parametrizedType string constant defaultVariable exitStatement uncheckedIdentifier defaultEventType graphicComponentToken generatorToken formatType);
@@ -25,6 +39,29 @@ PPASTGeneratorStrategy class >> pwbStrategy [
 		astPrefix: #PWBAST;
 		visitorPackage: #'PowerBuilder-Parser-Visitor';
 		visitorClass: #PWBASTAbstractVisitor;
+		yourself
+]
+
+{ #category : #'as yet unclassified' }
+PPASTGeneratorStrategy class >> pwbUserObjectStrategy [
+	^ self new
+		rulesToFlatten: #(identifier basicType booleanValue number parametrizedType string constant defaultVariable exitStatement uncheckedIdentifier defaultEventType graphicComponentToken generatorToken formatType);
+		rulesToIgnore: #(blank spaces reservedKeyword newlines);
+		parserPackage: #'PowerBuilder-Parser-Core';
+		parserClass: #PWBUserObjectParser;
+		astPackage: #'PowerBuilder-Parser-AST';
+		astPrefix: #PWBAST;
+		visitorPackage: #'PowerBuilder-Parser-Visitor';
+		visitorClass: #PWBASTAbstractVisitor;
+		yourself
+]
+
+{ #category : #'as yet unclassified' }
+PPASTGeneratorStrategy class >> testStrategy [
+	^ self new
+		rulesToFlatten: OrderedCollection new;
+		rulesToIgnore: OrderedCollection new;
+		astPrefix: #ASTNode;
 		yourself
 ]
 

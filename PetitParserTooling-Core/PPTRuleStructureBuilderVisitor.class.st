@@ -55,6 +55,19 @@ PPTRuleStructureBuilderVisitor >> visitFlatten: aPP2FlattenNode [
 	^ aPP2FlattenNode child accept: self
 ]
 
+{ #category : #'entry-point' }
+PPTRuleStructureBuilderVisitor >> visitGrammarRule: aGrammarRule [
+	^ [ aGrammarRule child accept: self ]
+		on: PPTChoiceReificationNotDefined
+		do: [ :exception | 
+			exception contextNode = aGrammarRule child
+				ifTrue:
+					[ "In this case, the choice that is not reify is the direct child of the rule, so we will use directly the choice as a leaf" PPTRuleLeaf name: aGrammarRule name ]
+				ifFalse: [ exception
+						rule: aGrammarRule name;
+						signal ] ]
+]
+
 { #category : #visit }
 PPTRuleStructureBuilderVisitor >> visitLiteralObject: aPP2LiteralObjectNode [ 
 	^ nil
