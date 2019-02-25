@@ -45,7 +45,7 @@ PPASTGeneratorStrategy class >> pwbStrategy [
 { #category : #'as yet unclassified' }
 PPASTGeneratorStrategy class >> pwbUserObjectStrategy [
 	^ self new
-		rulesToFlatten: #(identifier basicType booleanValue number parametrizedType string constant defaultVariable exitStatement uncheckedIdentifier defaultEventType graphicComponentToken generatorToken formatType);
+		rulesToFlatten: #(identifier basicType booleanValue number parametrizedType string constant defaultVariable exitStatement uncheckedIdentifier defaultEventType graphicComponentToken generatorToken formatType accessModifier);
 		rulesToIgnore: #(blank spaces reservedKeyword newlines);
 		parserPackage: #'PowerBuilder-Parser-Core';
 		parserClass: #PWBUserObjectParser;

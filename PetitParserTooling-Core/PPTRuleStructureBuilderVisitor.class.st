@@ -47,6 +47,7 @@ PPTRuleStructureBuilderVisitor >> visitDelegate: aPP2DelegateNode [
 				name:
 					(self ruleRenaming
 						at: aPP2DelegateNode name
+						ifPresent: [ :renamingStack | renamingStack pop ]
 						ifAbsent: [ aPP2DelegateNode name ]) ]
 ]
 
@@ -57,7 +58,7 @@ PPTRuleStructureBuilderVisitor >> visitFlatten: aPP2FlattenNode [
 
 { #category : #'entry-point' }
 PPTRuleStructureBuilderVisitor >> visitGrammarRule: aGrammarRule [
-	^ [ aGrammarRule child accept: self ]
+	^ ([ aGrammarRule child accept: self ]
 		on: PPTChoiceReificationNotDefined
 		do: [ :exception | 
 			exception contextNode = aGrammarRule child
@@ -65,7 +66,11 @@ PPTRuleStructureBuilderVisitor >> visitGrammarRule: aGrammarRule [
 					[ "In this case, the choice that is not reify is the direct child of the rule, so we will use directly the choice as a leaf" PPTRuleLeaf name: aGrammarRule name ]
 				ifFalse: [ exception
 						rule: aGrammarRule name;
-						signal ] ]
+						signal ] ])
+		ifNil: [ PPTEmptyASTNode new
+				rule: aGrammarRule;
+				signal ]
+		ifNotNil: [ :result | result ]
 ]
 
 { #category : #visit }

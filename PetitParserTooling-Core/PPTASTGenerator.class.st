@@ -165,9 +165,15 @@ PPTASTGenerator class >> generateEverythingFrom: aGrammarClass generationStrateg
 ]
 
 { #category : #construction }
-PPTASTGenerator class >> obtainRuleStructureFor: aRule generationStrategy: aPPASTGeneratorStrategy grammar: aGrammarPPInstance [
+PPTASTGenerator class >> obtainRuleStructureFor: aRuleName generationStrategy: aPPASTGeneratorStrategy grammar: aGrammarPPInstance [
+	| aRule |
+	aRule := (aGrammarPPInstance class lookupSelector: aRuleName).
+	aRule pragmas
+		select: [ :aPragma | aPragma key = 'reifyAllInto:' ]
+		thenDo:
+			[ :aValidPragma | ^ PPTRuleLeaf name: aValidPragma arguments first ].
 	^ (PPTRuleStructureBuilderVisitor
 		newWithStrategy: aPPASTGeneratorStrategy
-		onRule: (aGrammarPPInstance class lookupSelector: aRule))
-		visitGrammarRule: (aGrammarPPInstance productionAt: aRule)
+		onRule: aRule)
+		visitGrammarRule: (aGrammarPPInstance productionAt: aRuleName)
 ]

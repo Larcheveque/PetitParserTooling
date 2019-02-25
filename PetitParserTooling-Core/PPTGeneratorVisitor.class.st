@@ -30,8 +30,12 @@ PPTGeneratorVisitor >> configureOn: aRuleMethod [
 		ruleRenaming:
 			(aRuleMethod pragmas
 				select: [ :aPragma | aPragma key = 'rename:into:' ]
-				thenCollect:
-					[ :aValidPragma | aValidPragma arguments first -> aValidPragma arguments second ])
+				thenCollect: [ :aValidPragma | 
+					aValidPragma arguments first
+						->
+							(aValidPragma arguments second isString
+								ifFalse: [ Stack withAll: aValidPragma arguments second ]
+								ifTrue: [ Stack with: aValidPragma arguments second ]) ])
 				asDictionary
 ]
 

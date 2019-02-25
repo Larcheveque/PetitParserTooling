@@ -11,7 +11,7 @@ Class {
 PPTParserGenerationTest >> rule: aRuleSourceCode shouldProduceParser: aParserSourceCode [
 	| visitor ast parser structure ruleName |
 	visitor := PPTParserTestVisitor new.
-	ast := OpalCompiler new parse: aRuleSourceCode.
+	ast := self class compiler parse: aRuleSourceCode.
 	ruleName := ast selector.
 	ast body acceptVisitor: visitor.
 	parser := PP2DelegateNode
@@ -47,6 +47,18 @@ PPTParserGenerationTest >> testSeparatedByWithPosition [
 			'array
 	<generated>
 	^ super array ==> [ :production | ASTNodeArray new expressions: (self rejectSeparators: (production at: 2)) ]'
+]
+
+{ #category : #'as yet unclassified' }
+PPTParserGenerationTest >> testSequencePosition [
+	self
+		rule:
+			'arrayPosition
+	^ $[ parser , expression, $] parser'
+		shouldProduceParser:
+			'arrayPosition
+	<generated>
+	^ super arrayPosition ==> [ :production | ASTNodeArrayPosition new expression: (production at: 2) ]'
 ]
 
 { #category : #'as yet unclassified' }
