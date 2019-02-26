@@ -37,6 +37,13 @@ PPTRuleSeparatedBy >> methodCodeWith: aProductionName [
 					s nextPutAll: ')' ] ]
 ]
 
+{ #category : #serialization }
+PPTRuleSeparatedBy >> obtainCodeRepresentation: aPPTCode [
+	self flag: #TODO.	"Manage separator"
+	^ (self rule obtainCodeRepresentation: aPPTCode) rejectSeparator
+		pluralized
+]
+
 { #category : #accessing }
 PPTRuleSeparatedBy >> rule [
 	^ rule

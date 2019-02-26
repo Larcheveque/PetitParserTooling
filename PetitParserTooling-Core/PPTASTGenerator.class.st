@@ -89,7 +89,7 @@ PPTASTGenerator class >> createParserForRule: aRule ruleStructure: aRuleStructur
 	<generated>
 	^ super ' , aRule , ' ==> [ :production | '
 				, (aGenerationStrategy astNodeClassNameForRule: aRule) , ' new '
-				, (aRuleStructure methodCodeWith: 'production') , ' ]'
+				, (aRuleStructure methodCodeForProductionName: 'production') , '; yourself ]'
 		classified: #rules
 ]
 

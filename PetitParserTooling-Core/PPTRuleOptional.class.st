@@ -33,6 +33,11 @@ PPTRuleOptional >> methodCodeWith: productionIdentifier [
 						, ' ])' ]
 ]
 
+{ #category : #serialization }
+PPTRuleOptional >> obtainCodeRepresentation: aPPTCode [
+	^ (self rule obtainCodeRepresentation: aPPTCode) optional
+]
+
 { #category : #accessing }
 PPTRuleOptional >> rule [
 	^ rule

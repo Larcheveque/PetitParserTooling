@@ -35,6 +35,16 @@ PPTRuleNodePosition >> node: anObject [
 	node := anObject
 ]
 
+{ #category : #serialization }
+PPTRuleNodePosition >> obtainCodeRepresentation: aPPTCode [
+	^ self node
+		obtainCodeRepresentation:
+			(PPTCodePosition new
+				code: aPPTCode;
+				position: self position;
+				yourself)
+]
+
 { #category : #accessing }
 PPTRuleNodePosition >> position [
 	^ position

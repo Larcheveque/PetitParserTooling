@@ -47,6 +47,15 @@ PPTRulesWithPosition >> methodCodeWith: aString [
 				ifTrue: [ s nextPutAll: '; yourself' ] ]
 ]
 
+{ #category : #serialization }
+PPTRulesWithPosition >> obtainCodeRepresentation: aPPTCode [
+	^ PPTCodeCascade
+		codes:
+			(self rulesWithPosition
+				collect:
+					[ :aRuleWithPosition | aRuleWithPosition obtainCodeRepresentation: aPPTCode ])
+]
+
 { #category : #accessing }
 PPTRulesWithPosition >> rulesWithPosition [
 	^ rulesWithPosition

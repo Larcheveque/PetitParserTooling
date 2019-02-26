@@ -18,6 +18,11 @@ PPTRuleRepeating >> methodCodeWith: aString [
 	^ self rule methodCodePluralizeWith: aString
 ]
 
+{ #category : #serialization }
+PPTRuleRepeating >> obtainCodeRepresentation: aPPTCodeProduction [
+	^ (self rule obtainCodeRepresentation: aPPTCodeProduction) pluralized
+]
+
 { #category : #accessing }
 PPTRuleRepeating >> rule [
 	^ rule
