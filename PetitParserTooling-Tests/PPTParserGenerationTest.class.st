@@ -28,13 +28,25 @@ PPTParserGenerationTest >> rule: aRuleSourceCode shouldProduceParser: aParserSou
 	<generated>
 	^ super ' , ruleName , ' ==> [ :production | '
 				, (strategy astNodeClassNameForRule: ruleName) , ' new '
-				, (structure methodCodeWith: #production) , ' ]'
+				, (structure methodCodeForProductionName: #production) , '; yourself ]'
 		equals: aParserSourceCode
 ]
 
 { #category : #'as yet unclassified' }
 PPTParserGenerationTest >> setUp [ 
 	strategy := PPASTGeneratorStrategy testStrategy 
+]
+
+{ #category : #'as yet unclassified' }
+PPTParserGenerationTest >> testPlus [
+	self
+		rule:
+			'sequence
+	^ ruleA plus'
+		shouldProduceParser:
+			'sequence
+	<generated>
+	^ super sequence ==> [ :production | ASTNodeSequence new ruleAs: production; yourself ]'
 ]
 
 { #category : #'as yet unclassified' }
@@ -46,7 +58,19 @@ PPTParserGenerationTest >> testSeparatedByWithPosition [
 		shouldProduceParser:
 			'array
 	<generated>
-	^ super array ==> [ :production | ASTNodeArray new expressions: (self rejectSeparators: (production at: 2)) ]'
+	^ super array ==> [ :production | ASTNodeArray new expressions: (self rejectSeparators: (production at: 2)); yourself ]'
+]
+
+{ #category : #'as yet unclassified' }
+PPTParserGenerationTest >> testSequenceOptional [
+	self
+		rule:
+			'sequence
+	^ ruleA, (ruleB, ruleC) optional'
+		shouldProduceParser:
+			'sequence
+	<generated>
+	^ super sequence ==> [ :production | ASTNodeSequence new ruleA: (production at: 1); ruleB: ((production at: 2) ifNotEmpty: [((production at: 2) at: 1)]); ruleC: ((production at: 2) ifNotEmpty: [((production at: 2) at: 2)]); yourself ]'
 ]
 
 { #category : #'as yet unclassified' }
@@ -58,7 +82,19 @@ PPTParserGenerationTest >> testSequencePosition [
 		shouldProduceParser:
 			'arrayPosition
 	<generated>
-	^ super arrayPosition ==> [ :production | ASTNodeArrayPosition new expression: (production at: 2) ]'
+	^ super arrayPosition ==> [ :production | ASTNodeArrayPosition new expression: (production at: 2); yourself ]'
+]
+
+{ #category : #'as yet unclassified' }
+PPTParserGenerationTest >> testSimpleOption [
+	self
+		rule:
+			'sequence
+	^ rule optional'
+		shouldProduceParser:
+			'sequence
+	<generated>
+	^ super sequence ==> [ :production | ASTNodeSequence new rule: production; yourself ]'
 ]
 
 { #category : #'as yet unclassified' }
@@ -70,5 +106,5 @@ PPTParserGenerationTest >> testSimpleRule [
 		shouldProduceParser:
 			'myRule
 	<generated>
-	^ super myRule ==> [ :production | ASTNodeMyRule new dependingRule: production ]'
+	^ super myRule ==> [ :production | ASTNodeMyRule new dependingRule: production; yourself ]'
 ]
