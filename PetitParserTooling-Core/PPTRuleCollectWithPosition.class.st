@@ -19,8 +19,11 @@ PPTRuleCollectWithPosition >> node: anObject [
 ]
 
 { #category : #serialization }
-PPTRuleCollectWithPosition >> obtainCodeRepresentation: aPPTCode [ 
-	^ self node obtainCodeRepresentation: aPPTCode "(PPTCodeCollect receiver: aPPTCodePosition)."
+PPTRuleCollectWithPosition >> obtainCodeRepresentation: aPPTCode [
+	^ PPTCodeCollect new
+		receiver: (self node obtainCodeRepresentation: aPPTCode) pluralized;
+		position: self position;
+		subProductionCode: aPPTCode obtainSubProduction
 ]
 
 { #category : #accessing }

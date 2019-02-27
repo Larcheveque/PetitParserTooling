@@ -49,19 +49,6 @@ PPTRulesWithPosition >> methodCodePluralizeWith: aString [
 				ifTrue: [ s nextPutAll: '; yourself' ] ]
 ]
 
-{ #category : #creation }
-PPTRulesWithPosition >> methodCodeWith: aString [
-	^ String
-		streamContents: [ :s | 
-			s
-				nextPutAll:
-					((self rulesWithPosition
-						collect: [ :aRule | aRule methodCodeWith: aString ])
-						joinUsing: '; ').
-			self rulesWithPosition size > 1
-				ifTrue: [ s nextPutAll: '; yourself' ] ]
-]
-
 { #category : #serialization }
 PPTRulesWithPosition >> obtainCodeRepresentation: aPPTCode [
 	^ PPTCodeCascade

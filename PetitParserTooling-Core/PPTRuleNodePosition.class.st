@@ -32,12 +32,6 @@ PPTRuleNodePosition >> methodCodePluralizeWith: aProductionName [
 		methodCodePluralizeWith: '(' , aProductionName , ' at: ' , self position asString , ')'
 ]
 
-{ #category : #generation }
-PPTRuleNodePosition >> methodCodeWith: aProductionName [
-	^ node
-		methodCodeWith: '(' , aProductionName , ' at: ' , self position asString , ')'
-]
-
 { #category : #accessing }
 PPTRuleNodePosition >> node [
 	^ node

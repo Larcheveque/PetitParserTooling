@@ -2,9 +2,9 @@ Class {
 	#name : #PPTCodeCollect,
 	#superclass : #PPTCode,
 	#instVars : [
-		'code',
 		'subProductionCode',
-		'receiver'
+		'receiver',
+		'position'
 	],
 	#category : #'PetitParserTooling-Core'
 }
@@ -19,13 +19,13 @@ PPTCodeCollect class >> receiver: aReceiverPPTCode subProduction: aPPTCodeSubPro
 ]
 
 { #category : #accessing }
-PPTCodeCollect >> code [
-	^ code
+PPTCodeCollect >> position [
+	^ position
 ]
 
 { #category : #accessing }
-PPTCodeCollect >> code: anObject [
-	code := anObject
+PPTCodeCollect >> position: anObject [
+	position := anObject
 ]
 
 { #category : #accessing }
@@ -40,12 +40,15 @@ PPTCodeCollect >> receiver: anObject [
 
 { #category : #serialization }
 PPTCodeCollect >> serializeOn: aStream [
-	self receiver serializeOn: aStream.
+	self receiver serializeWithOpeningBracketOn: aStream.
 	aStream nextPutAll: ' collect: [:'.
 	self subProductionCode serializeOn: aStream.
 	aStream nextPutAll: ' | '.
-	self code serializeOn: aStream.
-	aStream nextPutAll: ']'
+	self subProductionCode serializeOn: aStream.
+	aStream
+		nextPutAll: ' at: ';
+		nextPutAll: self position asString;
+		nextPutAll: '])'
 ]
 
 { #category : #accessing }

@@ -41,6 +41,11 @@ PPTCode >> rejectSeparator [
 ]
 
 { #category : #serialization }
+PPTCode >> serialize [
+	^ String streamContents: [ :s | self serializeOn: s ]
+]
+
+{ #category : #serialization }
 PPTCode >> serializeOn: aStream [
 	self subclassResponsibility
 ]
