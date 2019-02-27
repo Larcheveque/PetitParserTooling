@@ -58,8 +58,11 @@ PPTGeneratorVisitor >> initialize [
 { #category : #testing }
 PPTGeneratorVisitor >> isASeparatedBy: aPP2ActionNode [
 	"this test reflect the structure of the parser tree created when you do a #separatedBy: in PetitParser2"
-	^ aPP2ActionNode child children second child children second
-		= aPP2ActionNode child children first
+
+	^ [ aPP2ActionNode child children second child children second
+		= aPP2ActionNode child children first ]
+		on: MessageNotUnderstood
+		do: [ false ]
 ]
 
 { #category : #accessing }

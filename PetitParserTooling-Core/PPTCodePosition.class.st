@@ -31,7 +31,7 @@ PPTCodePosition >> obtainSubProduction [
 
 { #category : #optional }
 PPTCodePosition >> optional [
-	^ PPTIfNotEmptyCode new
+	^ PPTIfNotNilCode new
 		testCode: self code;
 		codeInBlock: self;
 		yourself

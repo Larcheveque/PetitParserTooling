@@ -13,7 +13,7 @@ PPTRuleStructureBuilderVisitor >> visitAction: aPP2ActionNode [
 					(aPP2ActionNode child children second children first children first
 						accept: self);
 				yourself ]
-		ifFalse: [ aPP2ActionNode child acceptVisitor: self ]
+		ifFalse: [ aPP2ActionNode child accept: self ]
 ]
 
 { #category : #visit }
@@ -101,9 +101,11 @@ PPTRuleStructureBuilderVisitor >> visitOptional: aPP2OptionalNode [
 PPTRuleStructureBuilderVisitor >> visitPossesiveRepeating: aPP2PossesiveRepeatingNode [
 	^ (aPP2PossesiveRepeatingNode child accept: self)
 		ifNotNil: [ :childRule | 
-			PPTRuleRepeating new
-				rule: childRule;
-				yourself ]
+			(childRule class = PPTRulesWithPosition)
+				ifTrue: [ childRule intoCollectsWithPositions ]
+				ifFalse: [ PPTRuleRepeating new
+						rule: childRule;
+						yourself ] ]
 ]
 
 { #category : #visit }

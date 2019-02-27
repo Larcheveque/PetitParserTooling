@@ -32,13 +32,6 @@ PPTCodeAttributeAssignation >> initialize [
 	self isPluralized: false
 ]
 
-{ #category : #collect }
-PPTCodeAttributeAssignation >> intoCollect [
-	self assignedNode: (PPTCodeCollect code: self assignedNode).
-	self pluralized.
-	^ self
-]
-
 { #category : #accessing }
 PPTCodeAttributeAssignation >> isPluralized [
 	^ isPluralized
@@ -83,6 +76,15 @@ PPTCodeAttributeAssignation >> serializeOn: aStream [
 	self isPluralized
 		ifTrue: [ aStream nextPut: $s ].
 	aStream nextPutAll: ': '.
+	self assignedNode serializeOn: aStream
+]
+
+{ #category : #serialization }
+PPTCodeAttributeAssignation >> serializeWithOpeningBracketOn: aStream [ 
+	aStream nextPutAll: self name.
+	self isPluralized
+		ifTrue: [ aStream nextPut: $s ].
+	aStream nextPutAll: ': ('.
 	self assignedNode serializeOn: aStream
 ]
 

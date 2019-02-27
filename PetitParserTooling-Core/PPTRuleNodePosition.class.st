@@ -13,16 +13,23 @@ PPTRuleNodePosition >> attributesToCreate [
 	^ self node attributesToCreate 
 ]
 
+{ #category : #try }
+PPTRuleNodePosition >> intoCollect [
+	self shouldBeImplemented.
+]
+
+{ #category : #try }
+PPTRuleNodePosition >> intoCollectWithPosition [
+	^ PPTRuleCollectWithPosition new
+		position: self position;
+		node: self node;
+		yourself
+]
+
 { #category : #'as yet unclassified' }
 PPTRuleNodePosition >> methodCodePluralizeWith: aProductionName [ 
 	^ node
 		methodCodePluralizeWith: '(' , aProductionName , ' at: ' , self position asString , ')'
-]
-
-{ #category : #generation }
-PPTRuleNodePosition >> methodCodeWith: aProductionName [
-	^ node
-		methodCodeWith: '(' , aProductionName , ' at: ' , self position asString , ')'
 ]
 
 { #category : #accessing }
