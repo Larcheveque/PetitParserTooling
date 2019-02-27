@@ -38,6 +38,30 @@ PPTParserGenerationTest >> setUp [
 ]
 
 { #category : #'as yet unclassified' }
+PPTParserGenerationTest >> testAtPositionPlusAtPosition [
+	self
+		rule:
+			'sequence
+	^ ''ignored'' parser, ''ignored'' parser, ruleA , (''ignored'' parser, ruleB) plus'
+		shouldProduceParser:
+			'sequence
+	<generated>
+	^ super sequence ==> [ :production | ASTNodeSequence new ruleA: (production at: 3); ruleBs: ((production at: 4) collect: [:subProduction | subProduction at: 2]); yourself ]'
+]
+
+{ #category : #'as yet unclassified' }
+PPTParserGenerationTest >> testOperatorExpression [
+	self
+		rule:
+			'operatorExpression
+	^ methodInvocation optional , $+ parser, expression'
+		shouldProduceParser:
+			'myRule
+	<generated>
+	^ super myRule ==> [ :production | ASTNodeMyRule new dependingRule: production; yourself ]'
+]
+
+{ #category : #'as yet unclassified' }
 PPTParserGenerationTest >> testPlus [
 	self
 		rule:
@@ -47,6 +71,18 @@ PPTParserGenerationTest >> testPlus [
 			'sequence
 	<generated>
 	^ super sequence ==> [ :production | ASTNodeSequence new ruleAs: production; yourself ]'
+]
+
+{ #category : #'as yet unclassified' }
+PPTParserGenerationTest >> testPlusAtPosition [
+	self
+		rule:
+			'sequence
+	^ ruleA , ruleB plus'
+		shouldProduceParser:
+			'sequence
+	<generated>
+	^ super sequence ==> [ :production | ASTNodeSequence new ruleA: (production at: 1); ruleBs: (production at: 2); yourself ]'
 ]
 
 { #category : #'as yet unclassified' }
