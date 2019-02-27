@@ -106,7 +106,7 @@ PPTParserGenerationTest >> testSequenceOptional [
 		shouldProduceParser:
 			'sequence
 	<generated>
-	^ super sequence ==> [ :production | ASTNodeSequence new ruleA: (production at: 1); ruleB: ((production at: 2) ifNotEmpty: [((production at: 2) at: 1)]); ruleC: ((production at: 2) ifNotEmpty: [((production at: 2) at: 2)]); yourself ]'
+	^ super sequence ==> [ :production | ASTNodeSequence new ruleA: (production at: 1); ruleB: ((production at: 2) ifNotNil: [((production at: 2) at: 1)]); ruleC: ((production at: 2) ifNotNil: [((production at: 2) at: 2)]); yourself ]'
 ]
 
 { #category : #'as yet unclassified' }

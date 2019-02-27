@@ -24,7 +24,7 @@ PPTCodeRejectSeparator >> code: anObject [
 
 { #category : #serialization }
 PPTCodeRejectSeparator >> optional [
-	^ PPTIfNotEmptyCode new
+	^ PPTIfNotNilCode new
 		testCode: self code;
 		codeInBlock: self;
 		yourself

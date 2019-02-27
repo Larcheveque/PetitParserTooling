@@ -1,5 +1,5 @@
 Class {
-	#name : #PPTIfNotEmptyCode,
+	#name : #PPTIfNotNilCode,
 	#superclass : #PPTCode,
 	#instVars : [
 		'testCode',
@@ -9,30 +9,30 @@ Class {
 }
 
 { #category : #accessing }
-PPTIfNotEmptyCode >> codeInBlock [
+PPTIfNotNilCode >> codeInBlock [
 	^ codeInBlock
 ]
 
 { #category : #accessing }
-PPTIfNotEmptyCode >> codeInBlock: anObject [
+PPTIfNotNilCode >> codeInBlock: anObject [
 	codeInBlock := anObject
 ]
 
 { #category : #serialization }
-PPTIfNotEmptyCode >> serializeOn: aStream [ 
+PPTIfNotNilCode >> serializeOn: aStream [ 
 	aStream nextPut: $(.
 	self testCode serializeOn: aStream.
-	aStream nextPutAll: ' ifNotEmpty: ['.
+	aStream nextPutAll: ' ifNotNil: ['.
 	self codeInBlock serializeOn: aStream.
 	aStream nextPutAll: '])'
 ]
 
 { #category : #accessing }
-PPTIfNotEmptyCode >> testCode [
+PPTIfNotNilCode >> testCode [
 	^ testCode
 ]
 
 { #category : #accessing }
-PPTIfNotEmptyCode >> testCode: anObject [
+PPTIfNotNilCode >> testCode: anObject [
 	testCode := anObject
 ]

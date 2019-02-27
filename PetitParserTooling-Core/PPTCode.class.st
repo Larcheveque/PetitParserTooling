@@ -34,6 +34,12 @@ PPTCode >> pluralized [
 	^ self subclassResponsibility 
 ]
 
+{ #category : #generation }
+PPTCode >> rejectSeparator [
+	self codes: (self codes collect: #rejectSeparator).
+	^ self
+]
+
 { #category : #serialization }
 PPTCode >> serializeOn: aStream [
 	self subclassResponsibility

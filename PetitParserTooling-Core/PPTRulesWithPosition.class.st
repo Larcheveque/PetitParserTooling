@@ -21,6 +21,21 @@ PPTRulesWithPosition >> attributesToCreate [
 	^ self rulesWithPosition flatCollect: #attributesToCreate
 ]
 
+{ #category : #try }
+PPTRulesWithPosition >> intoCollect [
+	^ self rulesWithPosition collect: #intoCollect
+]
+
+{ #category : #try }
+PPTRulesWithPosition >> intoCollectWithPosition [
+	self shouldBeImplemented.
+]
+
+{ #category : #try }
+PPTRulesWithPosition >> intoCollectsWithPositions [
+	^ PPTRuleCollectsWithPositions rules: (self rulesWithPosition collect: #intoCollectWithPosition)
+]
+
 { #category : #'as yet unclassified' }
 PPTRulesWithPosition >> methodCodePluralizeWith: aString [ 
 	^ String

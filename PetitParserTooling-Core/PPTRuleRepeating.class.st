@@ -20,6 +20,9 @@ PPTRuleRepeating >> methodCodeWith: aString [
 
 { #category : #serialization }
 PPTRuleRepeating >> obtainCodeRepresentation: aPPTCode [
+
+	(self rule class = PPTRulesWithPosition) ifTrue: [ ^ PPTCodeCascade codes: self rule intoCollect ] .
+	Halt now.
 	(aPPTCode isCodeProduction or: [ aPPTCode child isCodeProduction ])
 		ifTrue: [ ^ (self rule obtainCodeRepresentation: aPPTCode) pluralized ].
 	^ self rule
