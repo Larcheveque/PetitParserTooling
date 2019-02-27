@@ -23,6 +23,14 @@ PPTCodeRejectSeparator >> code: anObject [
 ]
 
 { #category : #serialization }
+PPTCodeRejectSeparator >> optional [
+	^ PPTIfNotEmptyCode new
+		testCode: self code;
+		codeInBlock: self;
+		yourself
+]
+
+{ #category : #serialization }
 PPTCodeRejectSeparator >> serializeOn: aStream [ 
 	aStream nextPutAll: '(self rejectSeparators: '.
 	self code serializeOn: aStream.

@@ -26,7 +26,7 @@ PPTRuleStructureBuilderVisitor >> visitChoice: aPP2ChoiceNode [
 		ifEmpty: [ ^ nil ]
 		ifNotEmpty: [ key size = aPP2ChoiceNode children size
 				ifFalse: [ self
-						signal:
+						error:
 							'The grammar should not have a choice between interesting stuff and rejected ones' ]
 				ifTrue: [ ^ PPTRuleLeaf
 						name:

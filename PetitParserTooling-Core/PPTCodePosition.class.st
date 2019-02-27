@@ -18,6 +18,17 @@ PPTCodePosition >> code: anObject [
 	code := anObject
 ]
 
+{ #category : #serialization }
+PPTCodePosition >> intoCollect [
+	self code: self code intoCollect.
+	^ self
+]
+
+{ #category : #generation }
+PPTCodePosition >> obtainSubProduction [
+	^ self code obtainSubProduction 
+]
+
 { #category : #optional }
 PPTCodePosition >> optional [
 	^ PPTIfNotEmptyCode new
@@ -50,4 +61,10 @@ PPTCodePosition >> serializeOn: aStream [
 		nextPutAll: ' at: ';
 		nextPutAll: self position asString;
 		nextPutAll: ')'
+]
+
+{ #category : #generation }
+PPTCodePosition >> subProduction [
+	self code: (self code subProduction).
+	^ self
 ]

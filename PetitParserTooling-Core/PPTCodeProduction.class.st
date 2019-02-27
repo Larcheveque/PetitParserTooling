@@ -14,6 +14,26 @@ PPTCodeProduction class >> productionName: aString [
 		yourself
 ]
 
+{ #category : #experimental }
+PPTCodeProduction >> collectReceiver [
+	^ self
+]
+
+{ #category : #serialization }
+PPTCodeProduction >> intoCollect [
+	^ self
+]
+
+{ #category : #generation }
+PPTCodeProduction >> isCodeProduction [
+	^ true
+]
+
+{ #category : #generation }
+PPTCodeProduction >> obtainSubProduction [
+	^ PPTCodeProduction productionName: 'sub' , self productionName capitalized
+]
+
 { #category : #optional }
 PPTCodeProduction >> optional [
 	"here we are at the bottom of the tree so we don't care if it is optional or not"
@@ -38,4 +58,9 @@ PPTCodeProduction >> productionName: anObject [
 { #category : #serialization }
 PPTCodeProduction >> serializeOn: aWriteStream [ 
 	aWriteStream nextPutAll: self productionName 
+]
+
+{ #category : #generation }
+PPTCodeProduction >> subProduction [
+	^ self obtainSubProduction
 ]

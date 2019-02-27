@@ -32,6 +32,13 @@ PPTCodeAttributeAssignation >> initialize [
 	self isPluralized: false
 ]
 
+{ #category : #collect }
+PPTCodeAttributeAssignation >> intoCollect [
+	self assignedNode: (PPTCodeCollect code: self assignedNode).
+	self pluralized.
+	^ self
+]
+
 { #category : #accessing }
 PPTCodeAttributeAssignation >> isPluralized [
 	^ isPluralized
@@ -77,4 +84,10 @@ PPTCodeAttributeAssignation >> serializeOn: aStream [
 		ifTrue: [ aStream nextPut: $s ].
 	aStream nextPutAll: ': '.
 	self assignedNode serializeOn: aStream
+]
+
+{ #category : #generation }
+PPTCodeAttributeAssignation >> subProduction [
+	self assignedNode: self assignedNode subProduction.
+	^ self
 ]
