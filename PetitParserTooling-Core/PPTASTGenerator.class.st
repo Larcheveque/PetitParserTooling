@@ -14,10 +14,12 @@ Class {
 PPTASTGenerator class >> createASTNodeForRule: aRule ruleStructure: aRuleStructure generationStrategy: aGenerationStrategy [
 	| astClass |
 	astClass := aGenerationStrategy createAstNodeClass: aRule.
-	aRuleStructure attributesToCreate
-		do: [ :subRuleName | 
+	(aRuleStructure
+		obtainCodeRepresentation: (PPTCodeProduction productionName: #production))
+		allAssignations
+		do: [ :anAssignation | 
 			aGenerationStrategy
-				createAttributeAndAccessorsFor: subRuleName
+				createAttributeAndAccessorsFor: anAssignation finalName
 				inClass: astClass ].
 	astClass
 		compile:
