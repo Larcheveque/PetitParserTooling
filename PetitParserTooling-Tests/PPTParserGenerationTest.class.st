@@ -53,12 +53,12 @@ PPTParserGenerationTest >> testAtPositionPlusAtPosition [
 PPTParserGenerationTest >> testOperatorExpression [
 	self
 		rule:
-			'operatorExpression
+			'myRule
 	^ methodInvocation optional , $+ parser, expression'
 		shouldProduceParser:
 			'myRule
 	<generated>
-	^ super myRule ==> [ :production | ASTNodeMyRule new dependingRule: production; yourself ]'
+	^ super myRule ==> [ :production | ASTNodeMyRule new methodInvocation: (production at: 1); expression: (production at: 3); yourself ]'
 ]
 
 { #category : #'as yet unclassified' }

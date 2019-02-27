@@ -8,6 +8,12 @@ Class {
 	#category : #'PetitParserTooling-Core'
 }
 
+{ #category : #'as yet unclassified' }
+PPTRuleCollectWithPosition >> attributesToCreate [
+	^ self node attributesToCreate
+		collect: [ :attribute | attribute , 's' ]
+]
+
 { #category : #accessing }
 PPTRuleCollectWithPosition >> node [
 	^ node
