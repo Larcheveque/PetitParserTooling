@@ -14,6 +14,11 @@ PPTCodeCascade class >> codes: aCollectionOfPPTCodes [
 		yourself
 ]
 
+{ #category : #'attribute management' }
+PPTCodeCascade >> allAssignations [
+	^ self codes flatCollect: #allAssignations
+]
+
 { #category : #accessing }
 PPTCodeCascade >> codes [
 	^ codes
@@ -22,12 +27,6 @@ PPTCodeCascade >> codes [
 { #category : #accessing }
 PPTCodeCascade >> codes: anObject [
 	codes := anObject
-]
-
-{ #category : #serialization }
-PPTCodeCascade >> intoCollect [
-	self codes: (self codes collect: #intoCollect).
-	^ self
 ]
 
 { #category : #optional }
@@ -47,9 +46,4 @@ PPTCodeCascade >> serializeOn: aStream [
 	self codes
 		do: [ :aPPTCode | aPPTCode serializeOn: aStream ]
 		separatedBy: [ aStream nextPutAll: '; ' ]
-]
-
-{ #category : #generation }
-PPTCodeCascade >> subProduction [
-	self codes: (self codes collect: #subProduction)
 ]

@@ -93,6 +93,35 @@ PPTASTGenerator class >> createParserForRule: aRule ruleStructure: aRuleStructur
 		classified: #rules
 ]
 
+{ #category : #generation }
+PPTASTGenerator class >> createVisitingMethodForRule: aRule ruleStructure: aPPTRule generationStrategy: aPPASTGeneratorStrategy [
+	| astNodeClass |
+	astNodeClass := aPPASTGeneratorStrategy
+		astNodeClassNameForRule: aRule.
+	(self class environment at: aPPASTGeneratorStrategy visitorClass)
+		compile:
+			'visit' , astNodeClass , ': a' , astNodeClass
+				,
+					'
+	<generated>
+	'
+				,
+					('
+	'
+						join:
+							((aPPTRule
+								obtainCodeRepresentation: (PPTCodeProduction productionName: #production))
+								allAssignations
+								collect: [ :anAssignation | 
+									'self visit'
+										,
+											(anAssignation isPluralized
+												ifTrue: [ 'All:' ]
+												ifFalse: [ ':' ]) , ' a' , astNodeClass , ' '
+										, anAssignation finalName , '.' ]))
+		classified: #visiting
+]
+
 { #category : #parserGeneration }
 PPTASTGenerator class >> ensureParserClassFrom: aPPASTGeneratorStrategy existWithSuperclass: aClass [
 	| parserClass |
@@ -150,18 +179,23 @@ PPTASTGenerator class >> generateEverythingFrom: aGrammarClass generationStrateg
 					self
 						createFlattenVisitingMethod: aGrammarRule
 						generationStrategy: aGenerationStrategy ]
-				else: [ 
-					|ruleStructure|
-					ruleStructure := self obtainRuleStructureFor: aGrammarRule 
+				else: [ | ruleStructure |
+					ruleStructure := self
+						obtainRuleStructureFor: aGrammarRule
 						generationStrategy: aGenerationStrategy
 						grammar: grammar.
-					self createASTNodeForRule: aGrammarRule  ruleStructure: ruleStructure generationStrategy: aGenerationStrategy.
-					self createParserForRule: aGrammarRule  ruleStructure: ruleStructure generationStrategy: aGenerationStrategy.
-					
-					"self
-						createVisitingMethod: aGrammarRule
-						generationStrategy: aGenerationStrategy
-						grammar: grammar" ] ]
+					self
+						createASTNodeForRule: aGrammarRule
+						ruleStructure: ruleStructure
+						generationStrategy: aGenerationStrategy.
+					self
+						createParserForRule: aGrammarRule
+						ruleStructure: ruleStructure
+						generationStrategy: aGenerationStrategy.
+					self
+						createVisitingMethodForRule: aGrammarRule
+						ruleStructure: ruleStructure
+						generationStrategy: aGenerationStrategy ] ]
 ]
 
 { #category : #construction }

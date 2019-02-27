@@ -39,11 +39,6 @@ PPTRuleLeaf >> methodCodeWith: productionIdentifier [
 	^ self ruleName , ': ' , productionIdentifier
 ]
 
-{ #category : #representation }
-PPTRuleLeaf >> obtainCodeRepresentation [
-	^ PPTCodeAttributeAssignation named: self ruleName
-]
-
 { #category : #serialization }
 PPTRuleLeaf >> obtainCodeRepresentation: aPPTCode [
 	^ PPTCodeAttributeAssignation new

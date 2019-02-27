@@ -6,12 +6,13 @@ Class {
 
 { #category : #generation }
 PPTCode >> child [
+'Honore'.
+'Honore'.
+'Honore'.
+'Honore'.
+'Honore'.
+'Honore'.
 	^ self code
-]
-
-{ #category : #serialization }
-PPTCode >> intoCollect [
-	^ self subclassResponsibility 
 ]
 
 { #category : #testing }
@@ -48,9 +49,4 @@ PPTCode >> serialize [
 { #category : #serialization }
 PPTCode >> serializeOn: aStream [
 	self subclassResponsibility
-]
-
-{ #category : #generation }
-PPTCode >> subProduction [
-	^ self subclassResponsibility 
 ]

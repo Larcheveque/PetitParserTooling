@@ -16,6 +16,11 @@ PPTCodeAttributeAssignation class >> named: aName [
 		yourself
 ]
 
+{ #category : #'attribute management' }
+PPTCodeAttributeAssignation >> allAssignations [
+	^ { self }
+]
+
 { #category : #accessing }
 PPTCodeAttributeAssignation >> assignedNode [
 	^ assignedNode
@@ -24,6 +29,17 @@ PPTCodeAttributeAssignation >> assignedNode [
 { #category : #accessing }
 PPTCodeAttributeAssignation >> assignedNode: anObject [
 	assignedNode := anObject
+]
+
+{ #category : #naming }
+PPTCodeAttributeAssignation >> finalName [
+	^ self name
+		,
+			(self isPluralized
+				ifTrue: [ self name last = $s
+						ifTrue: [ 'es' ]
+						ifFalse: [ 's' ] ]
+				ifFalse: [ '' ])
 ]
 
 { #category : #initialization }
@@ -72,9 +88,7 @@ PPTCodeAttributeAssignation >> rejectSeparator [
 
 { #category : #serialization }
 PPTCodeAttributeAssignation >> serializeOn: aStream [
-	aStream nextPutAll: self name.
-	self isPluralized
-		ifTrue: [ aStream nextPut: $s ].
+	aStream nextPutAll: self finalName.
 	aStream nextPutAll: ': '.
 	self assignedNode serializeOn: aStream
 ]
@@ -86,10 +100,4 @@ PPTCodeAttributeAssignation >> serializeWithOpeningBracketOn: aStream [
 		ifTrue: [ aStream nextPut: $s ].
 	aStream nextPutAll: ': ('.
 	self assignedNode serializeOn: aStream
-]
-
-{ #category : #generation }
-PPTCodeAttributeAssignation >> subProduction [
-	self assignedNode: self assignedNode subProduction.
-	^ self
 ]

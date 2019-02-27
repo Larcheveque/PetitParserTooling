@@ -14,11 +14,6 @@ PPTRuleNodePosition >> attributesToCreate [
 ]
 
 { #category : #try }
-PPTRuleNodePosition >> intoCollect [
-	self shouldBeImplemented.
-]
-
-{ #category : #try }
 PPTRuleNodePosition >> intoCollectWithPosition [
 	^ PPTRuleCollectWithPosition new
 		position: self position;

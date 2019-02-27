@@ -18,6 +18,11 @@ PPTCodeCollect class >> receiver: aReceiverPPTCode subProduction: aPPTCodeSubPro
 		yourself
 ]
 
+{ #category : #'attribute management' }
+PPTCodeCollect >> allAssignations [
+	^ self receiver allAssignations 
+]
+
 { #category : #accessing }
 PPTCodeCollect >> position [
 	^ position

@@ -19,11 +19,6 @@ PPTCodeProduction >> collectReceiver [
 	^ self
 ]
 
-{ #category : #serialization }
-PPTCodeProduction >> intoCollect [
-	^ self
-]
-
 { #category : #generation }
 PPTCodeProduction >> isCodeProduction [
 	^ true
@@ -58,9 +53,4 @@ PPTCodeProduction >> productionName: anObject [
 { #category : #serialization }
 PPTCodeProduction >> serializeOn: aWriteStream [ 
 	aWriteStream nextPutAll: self productionName 
-]
-
-{ #category : #generation }
-PPTCodeProduction >> subProduction [
-	^ self obtainSubProduction
 ]

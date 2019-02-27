@@ -22,11 +22,6 @@ PPTRulesWithPosition >> attributesToCreate [
 ]
 
 { #category : #try }
-PPTRulesWithPosition >> intoCollect [
-	^ self rulesWithPosition collect: #intoCollect
-]
-
-{ #category : #try }
 PPTRulesWithPosition >> intoCollectWithPosition [
 	self shouldBeImplemented.
 ]
