@@ -14,11 +14,6 @@ PPTRuleCollectsWithPositions class >> rules: aCollectionOfRules [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
-PPTRuleCollectsWithPositions >> attributesToCreate [
-	^ self rules flatCollect: #attributesToCreate
-]
-
 { #category : #serialization }
 PPTRuleCollectsWithPositions >> obtainCodeRepresentation: aPPTCode [ 
 	^ PPTCodeCascade

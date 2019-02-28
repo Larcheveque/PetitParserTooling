@@ -16,32 +16,9 @@ PPTRulesWithPosition class >> createFrom: anArray [
 				yourself ]
 ]
 
-{ #category : #properties }
-PPTRulesWithPosition >> attributesToCreate [
-	^ self rulesWithPosition flatCollect: #attributesToCreate
-]
-
-{ #category : #try }
-PPTRulesWithPosition >> intoCollectWithPosition [
-	self shouldBeImplemented.
-]
-
 { #category : #try }
 PPTRulesWithPosition >> intoCollectsWithPositions [
 	^ PPTRuleCollectsWithPositions rules: (self rulesWithPosition collect: #intoCollectWithPosition)
-]
-
-{ #category : #'as yet unclassified' }
-PPTRulesWithPosition >> methodCodePluralizeWith: aString [ 
-	^ String
-		streamContents: [ :s | 
-			s
-				nextPutAll:
-					((self rulesWithPosition
-						collect: [ :aRule | aRule methodCodePluralizeWith: aString ])
-						joinUsing: '; ').
-			self rulesWithPosition size > 1
-				ifTrue: [ s nextPutAll: '; yourself' ] ]
 ]
 
 { #category : #serialization }

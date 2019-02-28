@@ -7,12 +7,6 @@ Class {
 	#category : #'PetitParserTooling-Core'
 }
 
-{ #category : #properties }
-PPTRuleRepeating >> attributesToCreate [
-	^ self rule attributesToCreate
-		collect: [ :attribute | attribute , 's' ]
-]
-
 { #category : #serialization }
 PPTRuleRepeating >> obtainCodeRepresentation: aPPTCodeProduction [
 	^ (self rule obtainCodeRepresentation: aPPTCodeProduction) pluralized

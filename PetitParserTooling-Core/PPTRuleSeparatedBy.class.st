@@ -8,35 +8,6 @@ Class {
 	#category : #'PetitParserTooling-Core'
 }
 
-{ #category : #creation }
-PPTRuleSeparatedBy >> attributesToCreate [
-	^ (self rule attributesToCreate
-		collect: [ :attribute | attribute , 's' ])
-		,
-			(self separator
-				ifNil: #()
-				ifNotNil: [ self separator attributesToCreate
-						collect: [ :attribute | attribute , 's' ] ])
-]
-
-{ #category : #creation }
-PPTRuleSeparatedBy >> methodCodeWith: aProductionName [
-	^ String
-		streamContents: [ :s | 
-			s
-				nextPutAll:
-					(self rule
-						methodCodePluralizeWith: '(self rejectSeparators: ' , aProductionName).
-			s nextPutAll: ')'.
-			self separator
-				ifNotNil: [ s nextPutAll: '; '.
-					s
-						nextPutAll:
-							(self rule
-								methodCodePluralizeWith: '(self selectSeparators: ' , aProductionName).
-					s nextPutAll: ')' ] ]
-]
-
 { #category : #serialization }
 PPTRuleSeparatedBy >> obtainCodeRepresentation: aPPTCode [
 	self flag: #TODO.	"Manage separator"

@@ -101,7 +101,9 @@ PPASTGeneratorStrategy >> createAstNodeClass: aRule [
 
 { #category : #generation }
 PPASTGeneratorStrategy >> createAttributeAndAccessorsFor: anAttributeName inClass: class [
-	class addInstVarNamed: anAttributeName.
+	(RBAddInstanceVariableRefactoring
+		variable: anAttributeName
+		class: class) execute.
 	(RBCreateAccessorsForVariableRefactoring
 		variable: anAttributeName
 		class: class

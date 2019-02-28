@@ -14,29 +14,9 @@ PPTRuleLeaf class >> name: aString [
 		yourself
 ]
 
-{ #category : #properties }
-PPTRuleLeaf >> attributesToCreate [
-	^ {self ruleName}
-]
-
 { #category : #testing }
 PPTRuleLeaf >> isLeaf [
 	^ true
-]
-
-{ #category : #accessing }
-PPTRuleLeaf >> methodCode [
-	^ self ruleName, ': production; yourself'
-]
-
-{ #category : #generation }
-PPTRuleLeaf >> methodCodePluralizeWith: productionIdentifier [ 
-	^ self ruleName , 's: ' , productionIdentifier
-]
-
-{ #category : #generation }
-PPTRuleLeaf >> methodCodeWith: productionIdentifier [
-	^ self ruleName , ': ' , productionIdentifier
 ]
 
 { #category : #serialization }

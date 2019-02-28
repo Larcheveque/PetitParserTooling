@@ -16,11 +16,6 @@ PPTAbstractRuleStructure >> methodCodeForProductionName: aProductionName [
 			[ :stream | (self obtainCodeRepresentation: (PPTCodeProduction productionName: aProductionName)) serializeOn: stream ]
 ]
 
-{ #category : #representation }
-PPTAbstractRuleStructure >> obtainCodeRepresentation [
-	^ self subclassResponsibility 
-]
-
 { #category : #serialization }
 PPTAbstractRuleStructure >> obtainCodeRepresentation: aPPTCode [
 	^ self subclassResponsibility 

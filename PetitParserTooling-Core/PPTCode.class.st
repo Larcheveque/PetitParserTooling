@@ -4,17 +4,6 @@ Class {
 	#category : #'PetitParserTooling-Core'
 }
 
-{ #category : #generation }
-PPTCode >> child [
-'Honore'.
-'Honore'.
-'Honore'.
-'Honore'.
-'Honore'.
-'Honore'.
-	^ self code
-]
-
 { #category : #testing }
 PPTCode >> isCodeProduction [
 	^ false
@@ -33,12 +22,6 @@ PPTCode >> optional [
 { #category : #serialization }
 PPTCode >> pluralized [
 	^ self subclassResponsibility 
-]
-
-{ #category : #generation }
-PPTCode >> rejectSeparator [
-	self codes: (self codes collect: #rejectSeparator).
-	^ self
 ]
 
 { #category : #serialization }

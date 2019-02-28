@@ -7,11 +7,6 @@ Class {
 	#category : #'PetitParserTooling-Core'
 }
 
-{ #category : #properties }
-PPTRuleOptional >> attributesToCreate [
-	^ self rule attributesToCreate
-]
-
 { #category : #serialization }
 PPTRuleOptional >> obtainCodeRepresentation: aPPTCode [
 	^ (self rule obtainCodeRepresentation: aPPTCode) optional

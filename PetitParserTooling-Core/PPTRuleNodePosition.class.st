@@ -8,23 +8,12 @@ Class {
 	#category : #'PetitParserTooling-Core'
 }
 
-{ #category : #properties }
-PPTRuleNodePosition >> attributesToCreate [
-	^ self node attributesToCreate 
-]
-
 { #category : #try }
 PPTRuleNodePosition >> intoCollectWithPosition [
 	^ PPTRuleCollectWithPosition new
 		position: self position;
 		node: self node;
 		yourself
-]
-
-{ #category : #'as yet unclassified' }
-PPTRuleNodePosition >> methodCodePluralizeWith: aProductionName [ 
-	^ node
-		methodCodePluralizeWith: '(' , aProductionName , ' at: ' , self position asString , ')'
 ]
 
 { #category : #accessing }

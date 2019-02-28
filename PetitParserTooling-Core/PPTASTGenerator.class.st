@@ -151,13 +151,25 @@ PPTASTGenerator class >> ensureParserClassFrom: aPPASTGeneratorStrategy existWit
 
 { #category : #parserGeneration }
 PPTASTGenerator class >> ensureVisitorClassFrom: aPPASTGeneratorStrategy [
-	[ self class environment at: aPPASTGeneratorStrategy visitorClass ]
+	| visitor |
+	visitor := [ self class environment
+		at: aPPASTGeneratorStrategy visitorClass ]
 		on: NotFound
 		do: [ Object
 				subclass: aPPASTGeneratorStrategy visitorClass
 				instanceVariableNames: ''
 				classVariableNames: ''
-				package: aPPASTGeneratorStrategy visitorPackage ]
+				package: aPPASTGeneratorStrategy visitorPackage ].
+	visitor
+		compile:
+			'visit: aChildNode
+	^ aChildNode acceptVisitor: self'
+		classified: #helpers.
+	visitor
+		compile:
+			'visitAll: childrenNodes
+	childrenNodes do: [ :aChildNode | aChildNode acceptVisitor: self ]'
+		classified: #helpers
 ]
 
 { #category : #'as yet unclassified' }
