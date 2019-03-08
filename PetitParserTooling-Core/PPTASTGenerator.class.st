@@ -163,16 +163,17 @@ PPTASTGenerator class >> ensureVisitorClassFrom: aPPASTGeneratorStrategy [
 	visitor
 		compile:
 			'visit: aChildNode
-	^ aChildNode acceptVisitor: self'
+	^ aChildNode ifNotNil: [ aChildNode acceptVisitor: self ]'
 		classified: #helpers.
 	visitor
 		compile:
 			'visitAll: childrenNodes
-	childrenNodes do: [ :aChildNode | aChildNode acceptVisitor: self ]'
+	childrenNodes
+		ifNotNil: [ childrenNodes do: [ :aChildNode | aChildNode acceptVisitor: self ] ]'
 		classified: #helpers
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #generation }
 PPTASTGenerator class >> generateEverythingFrom: aGrammarClass generationStrategy: aGenerationStrategy [
 	| grammar |
 	self
