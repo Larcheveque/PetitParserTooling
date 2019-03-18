@@ -26,7 +26,9 @@ PPTASTGenerator class >> createASTNodeForRule: aRule ruleStructure: aRuleStructu
 			'acceptVisitor: aVisitor
 	<generated>
 	^ aVisitor visit' , astClass name , ': self'
-		classified: #visiting
+		classified: #visiting.
+	aGenerationStrategy
+				createPositionsInClass: astClass.
 ]
 
 { #category : #generation }

@@ -110,6 +110,12 @@ PPASTGeneratorStrategy >> createAttributeAndAccessorsFor: anAttributeName inClas
 		classVariable: false) execute
 ]
 
+{ #category : #generation }
+PPASTGeneratorStrategy >> createPositionsInClass: aClass [
+	self createAttributeAndAccessorsFor: #startPosition inClass: aClass.
+	self createAttributeAndAccessorsFor: #stopPosition inClass: aClass
+]
+
 { #category : #dispatch }
 PPASTGeneratorStrategy >> if: aRuleName shouldBeFlatten: aFlattenBlock else: aDefaultBlock [
 	(self rulesToFlatten includes: aRuleName)
