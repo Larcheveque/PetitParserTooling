@@ -31,7 +31,8 @@ PPASTGeneratorStrategy class >> pwbDataWindowStrategy [
 { #category : #'as yet unclassified' }
 PPASTGeneratorStrategy class >> pwbStrategy [
 	^ self new
-		rulesToFlatten: #(identifier basicType booleanValue number parametrizedType string constant defaultVariable exitStatement uncheckedIdentifier defaultEventType graphicComponentToken generatorToken formatType);
+		rulesToFlatten:
+			#(identifier basicType booleanValue number parametrizedType string constant defaultVariable exitStatement uncheckedIdentifier defaultEventType graphicComponentToken generatorToken formatType this);
 		rulesToIgnore: #(blank spaces reservedKeyword newlines);
 		parserPackage: #'PowerBuilder-Parser-Core';
 		parserClass: #PWBDataWindowParser;
@@ -45,7 +46,7 @@ PPASTGeneratorStrategy class >> pwbStrategy [
 { #category : #'as yet unclassified' }
 PPASTGeneratorStrategy class >> pwbUserObjectStrategy [
 	^ self new
-		rulesToFlatten: #(identifier basicType booleanValue number parametrizedType string constant defaultVariable exitStatement uncheckedIdentifier defaultEventType graphicComponentToken generatorToken formatType accessModifier sqlQuery endForward);
+		rulesToFlatten: #(identifier basicType booleanValue number parametrizedType string constant defaultVariable exitStatement uncheckedIdentifier defaultEventType graphicComponentToken generatorToken formatType accessModifier sqlQuery endForward this);
 		rulesToIgnore: #(blank spaces reservedKeyword newlines );
 		parserPackage: #'PowerBuilder-Parser-Core';
 		parserClass: #PWBUserObjectParser;
