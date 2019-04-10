@@ -49,9 +49,9 @@ PPASTGeneratorStrategy class >> pwbUserObjectStrategy [
 		rulesToFlatten: #(identifier basicType booleanValue number parametrizedType string constant defaultVariable exitStatement uncheckedIdentifier defaultEventType graphicComponentToken generatorToken formatType accessModifier sqlQuery endForward this);
 		rulesToIgnore: #(blank spaces reservedKeyword newlines );
 		parserPackage: #'PowerBuilder-Parser-Core';
-		parserClass: #PWBUserObjectParser;
 		astPackage: #'PowerBuilder-Parser-AST';
 		astPrefix: #PWBAST;
+		parserClass: [ :originClass | originClass name copyReplaceAll: 'Grammar' with: 'Parser' ];
 		visitorPackage: #'PowerBuilder-Parser-Visitor';
 		visitorClass: #PWBASTAbstractVisitor;
 		yourself
@@ -130,6 +130,13 @@ PPASTGeneratorStrategy >> if: aRuleName shouldBeIgnored: ignoreBlock else: aDefa
 	^ (self rulesToIgnore includes: aRuleName)
 		ifTrue: [ ignoreBlock value ]
 		ifFalse: [ aDefaultBlock value ]
+]
+
+{ #category : #className }
+PPASTGeneratorStrategy >> obtainParserClassFrom: aClass [
+	^ self parserClass isClosure
+		ifTrue: [ self parserClass value: aClass ]
+		ifFalse: [ self parserClass ]
 ]
 
 { #category : #accessing }

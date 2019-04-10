@@ -52,8 +52,8 @@ PPTASTGenerator class >> createFlattenNodeForRule: aRule generationStrategy: aPP
 ]
 
 { #category : #generation }
-PPTASTGenerator class >> createFlattenRule: aRuleName inParserFollowingGenerationStrategy: aPPASTGeneratorStrategy [
-	(self class environment at: aPPASTGeneratorStrategy parserClass)
+PPTASTGenerator class >> createFlattenRule: aRuleName inParser: parserClass followingGenerationStrategy: aPPASTGeneratorStrategy [
+	parserClass
 		compile:
 			aRuleName
 				,
@@ -81,10 +81,7 @@ PPTASTGenerator class >> createFlattenVisitingMethod: aRule generationStrategy: 
 ]
 
 { #category : #creation }
-PPTASTGenerator class >> createParserForRule: aRule ruleStructure: aRuleStructure generationStrategy: aGenerationStrategy [
-	| parserClass |
-	parserClass := self class environment
-		at: aGenerationStrategy parserClass.
+PPTASTGenerator class >> createRule: aRule inParser: parserClass ruleStructure: aRuleStructure generationStrategy: aGenerationStrategy [
 	parserClass
 		compile:
 			aRule
@@ -93,7 +90,8 @@ PPTASTGenerator class >> createParserForRule: aRule ruleStructure: aRuleStructur
 	<generated>
 	^ super ' , aRule , ' ==> [ :production | '
 				, (aGenerationStrategy astNodeClassNameForRule: aRule) , ' new '
-				, (aRuleStructure methodCodeForProductionName: 'production') , '; yourself ]'
+				, (aRuleStructure methodCodeForProductionName: 'production')
+				, '; yourself ]'
 		classified: #rules
 ]
 
@@ -130,10 +128,10 @@ PPTASTGenerator class >> createVisitingMethodForRule: aRule ruleStructure: aPPTR
 PPTASTGenerator class >> ensureParserClassFrom: aPPASTGeneratorStrategy existWithSuperclass: aClass [
 	| parserClass |
 	parserClass := [ self class environment
-		at: aPPASTGeneratorStrategy parserClass ]
+		at: (aPPASTGeneratorStrategy obtainParserClassFrom: aClass) ]
 		on: NotFound
 		do: [ aClass
-				subclass: aPPASTGeneratorStrategy parserClass
+				subclass:  (aPPASTGeneratorStrategy obtainParserClassFrom: aClass)
 				instanceVariableNames: ''
 				classVariableNames: ''
 				package: aPPASTGeneratorStrategy parserPackage ].
@@ -148,7 +146,8 @@ PPTASTGenerator class >> ensureParserClassFrom: aPPASTGeneratorStrategy existWit
 			'selectSeparators: anArray
 	<generated>
 	^ anArray withIndexSelect: [:anElement :anIndex | anIndex even]'
-		classified: #helpers
+		classified: #helpers.
+	^ parserClass 
 ]
 
 { #category : #parserGeneration }
@@ -177,8 +176,8 @@ PPTASTGenerator class >> ensureVisitorClassFrom: aPPASTGeneratorStrategy [
 
 { #category : #generation }
 PPTASTGenerator class >> generateEverythingFrom: aGrammarClass generationStrategy: aGenerationStrategy [
-	| grammar |
-	self
+	| grammar parserClass |
+	parserClass := self
 		ensureParserClassFrom: aGenerationStrategy
 		existWithSuperclass: aGrammarClass.
 	self ensureVisitorClassFrom: aGenerationStrategy.
@@ -192,7 +191,8 @@ PPTASTGenerator class >> generateEverythingFrom: aGrammarClass generationStrateg
 						generationStrategy: aGenerationStrategy.
 					self
 						createFlattenRule: aGrammarRule
-						inParserFollowingGenerationStrategy: aGenerationStrategy.
+						inParser: parserClass
+						followingGenerationStrategy: aGenerationStrategy.
 					self
 						createFlattenVisitingMethod: aGrammarRule
 						generationStrategy: aGenerationStrategy ]
@@ -206,7 +206,8 @@ PPTASTGenerator class >> generateEverythingFrom: aGrammarClass generationStrateg
 						ruleStructure: ruleStructure
 						generationStrategy: aGenerationStrategy.
 					self
-						createParserForRule: aGrammarRule
+						createRule: aGrammarRule
+						inParser: parserClass
 						ruleStructure: ruleStructure
 						generationStrategy: aGenerationStrategy.
 					self
