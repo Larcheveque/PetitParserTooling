@@ -15,24 +15,10 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-PPASTGeneratorStrategy class >> pwbDataWindowStrategy [
-	^ self new
-		rulesToFlatten: #(identifier basicType booleanValue number parametrizedType string constant defaultVariable exitStatement uncheckedIdentifier defaultEventType graphicComponentToken generatorToken formatType);
-		rulesToIgnore: #(blank spaces reservedKeyword newlines);
-		parserPackage: #'PowerBuilder-Parser-Core';
-		parserClass: #PWBDataWindowParser;
-		astPackage: #'PowerBuilder-Parser-AST';
-		astPrefix: #PWBAST;
-		visitorPackage: #'PowerBuilder-Parser-Visitor';
-		visitorClass: #PWBASTAbstractVisitor;
-		yourself
-]
-
-{ #category : #'as yet unclassified' }
 PPASTGeneratorStrategy class >> pwbStrategy [
 	^ self new
 		rulesToFlatten:
-			#(identifier basicType booleanValue number parametrizedType string constant defaultVariable exitStatement uncheckedIdentifier defaultEventType graphicComponentToken generatorToken formatType this);
+			#(identifier basicType booleanValue number parametrizedType string constant defaultVariable exitStatement uncheckedIdentifier defaultEventType graphicComponentToken generatorToken formatType this arrayDesignation argumentOption continueStatement);
 		rulesToIgnore: #(blank spaces reservedKeyword newlines);
 		parserPackage: #'PowerBuilder-Parser-Core';
 		parserClass: #PWBDataWindowParser;
@@ -46,12 +32,14 @@ PPASTGeneratorStrategy class >> pwbStrategy [
 { #category : #'as yet unclassified' }
 PPASTGeneratorStrategy class >> pwbUserObjectStrategy [
 	^ self new
-		rulesToFlatten: #(identifier basicType booleanValue number parametrizedType string constant defaultVariable exitStatement uncheckedIdentifier defaultEventType graphicComponentToken generatorToken formatType accessModifier sqlQuery endForward this);
-		rulesToIgnore: #(blank spaces reservedKeyword newlines );
+		rulesToFlatten:
+			#(identifier basicType booleanValue number parametrizedType string constant defaultVariable exitStatement uncheckedIdentifier defaultEventType graphicComponentToken generatorToken formatType accessModifier sqlQuery endForward this arrayDesignation argumentOption continueStatement);
+		rulesToIgnore: #(blank spaces reservedKeyword newlines);
 		parserPackage: #'PowerBuilder-Parser-Core';
 		astPackage: #'PowerBuilder-Parser-AST';
 		astPrefix: #PWBAST;
-		parserClass: [ :originClass | originClass name copyReplaceAll: 'Grammar' with: 'Parser' ];
+		parserClass:
+				[ :originClass | originClass name copyReplaceAll: 'Grammar' with: 'Parser' ];
 		visitorPackage: #'PowerBuilder-Parser-Visitor';
 		visitorClass: #PWBASTAbstractVisitor;
 		yourself
