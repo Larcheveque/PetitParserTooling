@@ -28,7 +28,9 @@ PPTParserGenerationTest >> rule: aRuleSourceCode shouldProduceParser: aParserSou
 	<generated>
 	^ super ' , ruleName , ' ==> [ :production | '
 				, (strategy astNodeClassNameForRule: ruleName) , ' new '
-				, (structure methodCodeForProductionName: #production) , '; yourself ]'
+				, strategy nodeInstanceCreationOptions
+				, (structure methodCodeForProductionName: strategy productionAccess)
+				, '; yourself ]'
 		equals: aParserSourceCode
 ]
 
@@ -47,6 +49,19 @@ PPTParserGenerationTest >> testAtPositionPlusAtPosition [
 			'sequence
 	<generated>
 	^ super sequence ==> [ :production | ASTNodeSequence new ruleA: (production at: 3); ruleBs: ((production at: 4) collect: [:subProduction | subProduction at: 2]); yourself ]'
+]
+
+{ #category : #'as yet unclassified' }
+PPTParserGenerationTest >> testKeepPositionPlus [
+	strategy keepPositions: true.
+	self
+		rule:
+			'sequence
+	^ ruleA plus'
+		shouldProduceParser:
+			'sequence
+	<generated>
+	^ super sequence ==> [ :production | ASTNodeSequence new startPosition: production start; stopPosition: production stop; ruleAs: production content; yourself ]'
 ]
 
 { #category : #'as yet unclassified' }
