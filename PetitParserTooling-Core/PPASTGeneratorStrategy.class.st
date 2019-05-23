@@ -27,6 +27,7 @@ PPASTGeneratorStrategy class >> pwbStrategy [
 		astPrefix: #PWBAST;
 		visitorPackage: #'PowerBuilder-Parser-Visitor';
 		visitorClass: #PWBASTAbstractVisitor;
+		keepPositions: true;
 		yourself
 ]
 
@@ -43,6 +44,7 @@ PPASTGeneratorStrategy class >> pwbUserObjectStrategy [
 				[ :originClass | originClass name copyReplaceAll: 'Grammar' with: 'Parser' ];
 		visitorPackage: #'PowerBuilder-Parser-Visitor';
 		visitorClass: #PWBASTAbstractVisitor;
+		keepPositions: true;
 		yourself
 ]
 
