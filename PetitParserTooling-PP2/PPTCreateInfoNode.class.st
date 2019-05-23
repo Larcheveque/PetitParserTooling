@@ -7,11 +7,6 @@ Class {
 	#category : #'PetitParserTooling-PP2'
 }
 
-{ #category : #visiting }
-PPTCreateInfoNode >> accept: aPP2ParserVisitor [
-	^ aPP2ParserVisitor visitCreateInfo: self
-]
-
 { #category : #initialization }
 PPTCreateInfoNode >> resetStrategy [
 	strategy := PPTCreateInfoStrategy on: self
