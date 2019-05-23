@@ -9,7 +9,8 @@ Class {
 		'visitorPackage',
 		'visitorClass',
 		'astPackage',
-		'astPrefix'
+		'astPrefix',
+		'keepPositions'
 	],
 	#category : #'PetitParserTooling-Core'
 }
@@ -101,8 +102,9 @@ PPASTGeneratorStrategy >> createAttributeAndAccessorsFor: anAttributeName inClas
 
 { #category : #generation }
 PPASTGeneratorStrategy >> createPositionsInClass: aClass [
-	self createAttributeAndAccessorsFor: #startPosition inClass: aClass.
-	self createAttributeAndAccessorsFor: #stopPosition inClass: aClass
+	self keepPositions
+		ifTrue: [ self createAttributeAndAccessorsFor: #startPosition inClass: aClass.
+			self createAttributeAndAccessorsFor: #stopPosition inClass: aClass ]
 ]
 
 { #category : #dispatch }
@@ -118,6 +120,27 @@ PPASTGeneratorStrategy >> if: aRuleName shouldBeIgnored: ignoreBlock else: aDefa
 	^ (self rulesToIgnore includes: aRuleName)
 		ifTrue: [ ignoreBlock value ]
 		ifFalse: [ aDefaultBlock value ]
+]
+
+{ #category : #initialization }
+PPASTGeneratorStrategy >> initialize [ 
+	super initialize.
+	self keepPositions: false.
+]
+
+{ #category : #accessing }
+PPASTGeneratorStrategy >> keepPositions [
+	^ keepPositions
+]
+
+{ #category : #accessing }
+PPASTGeneratorStrategy >> keepPositions: anObject [
+	keepPositions := anObject
+]
+
+{ #category : #options }
+PPASTGeneratorStrategy >> nodeInstanceCreationOptions [
+	^ self keepPositions ifTrue: [ 'startPosition: production start; stopPosition: production stop; ' ] ifFalse: [ '' ]
 ]
 
 { #category : #className }
@@ -145,6 +168,20 @@ PPASTGeneratorStrategy >> parserPackage [
 { #category : #accessing }
 PPASTGeneratorStrategy >> parserPackage: anObject [
 	parserPackage := anObject
+]
+
+{ #category : #options }
+PPASTGeneratorStrategy >> productionAccess [
+	^ self keepPositions
+		ifTrue: [ 'production content' ]
+		ifFalse: [ #production ]
+]
+
+{ #category : #options }
+PPASTGeneratorStrategy >> rulesDecoration [
+	^ self keepPositions
+		ifTrue: [ 'withPositions ' ]
+		ifFalse: [ '' ]
 ]
 
 { #category : #accessing }

@@ -15,7 +15,7 @@ PPTASTGenerator class >> createASTNodeForRule: aRule ruleStructure: aRuleStructu
 	| astClass |
 	astClass := aGenerationStrategy createAstNodeClass: aRule.
 	(aRuleStructure
-		obtainCodeRepresentation: (PPTCodeProduction productionName: #production))
+		obtainCodeRepresentation: (PPTCodeProduction productionName: aGenerationStrategy productionAccess))
 		allAssignations
 		do: [ :anAssignation | 
 			aGenerationStrategy
@@ -48,7 +48,9 @@ PPTASTGenerator class >> createFlattenNodeForRule: aRule generationStrategy: aPP
 	(RBCreateAccessorsForVariableRefactoring
 		variable: aRule
 		class: astClass
-		classVariable: false) execute
+		classVariable: false) execute.
+	aPPASTGeneratorStrategy
+				createPositionsInClass: astClass.
 ]
 
 { #category : #generation }
@@ -59,9 +61,13 @@ PPTASTGenerator class >> createFlattenRule: aRuleName inParser: parserClass foll
 				,
 					'
 	<generated>
-	^ super ' , aRuleName , ' flatten ==> [ :production | '
+	^ super ' , aRuleName , ' flatten '
+				, aPPASTGeneratorStrategy rulesDecoration
+				, ' ==> [ :production | '
 				, (aPPASTGeneratorStrategy astNodeClassNameForRule: aRuleName)
-				, ' new ' , aRuleName , ': production; yourself ]'
+				, ' new ' , aPPASTGeneratorStrategy nodeInstanceCreationOptions
+				, aRuleName , ': ' , aPPASTGeneratorStrategy productionAccess
+				, '; yourself ]'
 		classified: 'rules'
 ]
 
@@ -88,9 +94,13 @@ PPTASTGenerator class >> createRule: aRule inParser: parserClass ruleStructure: 
 				,
 					'
 	<generated>
-	^ super ' , aRule , ' ==> [ :production | '
+	^ super ' , aRule , ' ' , aGenerationStrategy rulesDecoration
+				, '==> [ :production | '
 				, (aGenerationStrategy astNodeClassNameForRule: aRule) , ' new '
-				, (aRuleStructure methodCodeForProductionName: 'production')
+				, aGenerationStrategy nodeInstanceCreationOptions
+				,
+					(aRuleStructure
+						methodCodeForProductionName: aGenerationStrategy productionAccess)
 				, '; yourself ]'
 		classified: #rules
 ]
@@ -112,7 +122,9 @@ PPTASTGenerator class >> createVisitingMethodForRule: aRule ruleStructure: aPPTR
 	'
 						join:
 							((aPPTRule
-								obtainCodeRepresentation: (PPTCodeProduction productionName: #production))
+								obtainCodeRepresentation:
+									(PPTCodeProduction
+										productionName: aPPASTGeneratorStrategy productionAccess))
 								allAssignations
 								collect: [ :anAssignation | 
 									'self visit'

@@ -36,6 +36,11 @@ PPTCodeProduction >> optional [
 ]
 
 { #category : #serialization }
+PPTCodeProduction >> parameterSerializeOn: aWriteStream [
+	aWriteStream nextPutAll: self productionName substrings first
+]
+
+{ #category : #serialization }
 PPTCodeProduction >> pluralized [
 	^ self
 ]
