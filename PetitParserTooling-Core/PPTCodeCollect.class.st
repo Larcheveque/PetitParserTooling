@@ -47,7 +47,7 @@ PPTCodeCollect >> receiver: anObject [
 PPTCodeCollect >> serializeOn: aStream [
 	self receiver serializeWithOpeningBracketOn: aStream.
 	aStream nextPutAll: ' collect: [:'.
-	self subProductionCode parameterSerializeOn: aStream.
+	self subProductionCode serializeOn: aStream.
 	aStream nextPutAll: ' | '.
 	self subProductionCode serializeOn: aStream.
 	aStream

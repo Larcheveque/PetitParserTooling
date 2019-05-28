@@ -26,18 +26,14 @@ PPTCodeProduction >> isCodeProduction [
 
 { #category : #generation }
 PPTCodeProduction >> obtainSubProduction [
-	^ PPTCodeProduction productionName: 'sub' , self productionName capitalized
+	^ PPTCodeProduction
+		productionName: 'sub' , self productionName substrings first capitalized
 ]
 
 { #category : #optional }
 PPTCodeProduction >> optional [
 	"here we are at the bottom of the tree so we don't care if it is optional or not"
 	^ self
-]
-
-{ #category : #serialization }
-PPTCodeProduction >> parameterSerializeOn: aWriteStream [
-	aWriteStream nextPutAll: self productionName substrings first
 ]
 
 { #category : #serialization }
