@@ -25,9 +25,7 @@ PPTRuleStructureBuilderVisitor >> visitChoice: aPP2ChoiceNode [
 	key
 		ifEmpty: [ ^ nil ]
 		ifNotEmpty: [ key size = aPP2ChoiceNode children size
-				ifFalse: [ self
-						error:
-							'The grammar should not have a choice between interesting stuff and rejected ones' ]
+				ifFalse: [ PPTIncorrectChoice signal ]
 				ifTrue: [ ^ PPTRuleLeaf
 						name:
 							(self ruleReifications
@@ -58,7 +56,7 @@ PPTRuleStructureBuilderVisitor >> visitFlatten: aPP2FlattenNode [
 
 { #category : #'entry-point' }
 PPTRuleStructureBuilderVisitor >> visitGrammarRule: aGrammarRule [
-	^ ([ aGrammarRule child accept: self ]
+	^ [ ([ aGrammarRule child accept: self ]
 		on: PPTChoiceReificationNotDefined
 		do: [ :exception | 
 			exception contextNode = aGrammarRule child
@@ -70,7 +68,11 @@ PPTRuleStructureBuilderVisitor >> visitGrammarRule: aGrammarRule [
 		ifNil: [ PPTEmptyASTNode new
 				rule: aGrammarRule;
 				signal ]
-		ifNotNil: [ :result | result ]
+		ifNotNil: [ :result | result ] ]
+		on: PPTIncorrectChoice
+		do: [ :exception | 
+			exception rule: aGrammarRule.
+			exception signal ]
 ]
 
 { #category : #visit }

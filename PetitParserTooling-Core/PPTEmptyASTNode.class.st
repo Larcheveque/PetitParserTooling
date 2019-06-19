@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'rule'
 	],
-	#category : #'PetitParserTooling-Core'
+	#category : #'PetitParserTooling-Core-Exceptions'
 }
 
 { #category : #accessing }
