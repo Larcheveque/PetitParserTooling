@@ -1,5 +1,5 @@
 Class {
-	#name : #PPASTGeneratorStrategy,
+	#name : #PPTASTGeneratorStrategy,
 	#superclass : #Object,
 	#instVars : [
 		'rulesToFlatten',
@@ -16,7 +16,7 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-PPASTGeneratorStrategy class >> pwbStrategy [
+PPTASTGeneratorStrategy class >> pwbStrategy [
 	^ self new
 		rulesToFlatten:
 			#(identifier basicType booleanValue number parametrizedType string constant defaultVariable exitStatement uncheckedIdentifier defaultEventType graphicComponentToken generatorToken formatType this arrayDesignation argumentOption continueStatement);
@@ -32,7 +32,7 @@ PPASTGeneratorStrategy class >> pwbStrategy [
 ]
 
 { #category : #'as yet unclassified' }
-PPASTGeneratorStrategy class >> pwbUserObjectStrategy [
+PPTASTGeneratorStrategy class >> pwbUserObjectStrategy [
 	^ self new
 		rulesToFlatten:
 			#(identifier basicType booleanValue number parametrizedType string constant defaultVariable exitStatement uncheckedIdentifier defaultEventType graphicComponentToken generatorToken formatType accessModifier sqlQuery endForward this arrayDesignation argumentOption continueStatement);
@@ -49,7 +49,7 @@ PPASTGeneratorStrategy class >> pwbUserObjectStrategy [
 ]
 
 { #category : #'as yet unclassified' }
-PPASTGeneratorStrategy class >> testStrategy [
+PPTASTGeneratorStrategy class >> testStrategy [
 	^ self new
 		rulesToFlatten: OrderedCollection new;
 		rulesToIgnore: OrderedCollection new;
@@ -58,32 +58,32 @@ PPASTGeneratorStrategy class >> testStrategy [
 ]
 
 { #category : #accessing }
-PPASTGeneratorStrategy >> astNodeClassNameForRule: aRule [
+PPTASTGeneratorStrategy >> astNodeClassNameForRule: aRule [
 	^ self astPrefix , aRule capitalized
 ]
 
 { #category : #accessing }
-PPASTGeneratorStrategy >> astPackage [
+PPTASTGeneratorStrategy >> astPackage [
 	^ astPackage
 ]
 
 { #category : #accessing }
-PPASTGeneratorStrategy >> astPackage: anObject [
+PPTASTGeneratorStrategy >> astPackage: anObject [
 	astPackage := anObject
 ]
 
 { #category : #accessing }
-PPASTGeneratorStrategy >> astPrefix [
+PPTASTGeneratorStrategy >> astPrefix [
 	^ astPrefix
 ]
 
 { #category : #accessing }
-PPASTGeneratorStrategy >> astPrefix: anObject [
+PPTASTGeneratorStrategy >> astPrefix: anObject [
 	astPrefix := anObject
 ]
 
 { #category : #creation }
-PPASTGeneratorStrategy >> createAstNodeClass: aRule [
+PPTASTGeneratorStrategy >> createAstNodeClass: aRule [
 	^ Object
 		subclass: (self astNodeClassNameForRule: aRule)
 		instanceVariableNames: ''
@@ -92,7 +92,7 @@ PPASTGeneratorStrategy >> createAstNodeClass: aRule [
 ]
 
 { #category : #generation }
-PPASTGeneratorStrategy >> createAttributeAndAccessorsFor: anAttributeName inClass: class [
+PPTASTGeneratorStrategy >> createAttributeAndAccessorsFor: anAttributeName inClass: class [
 	(RBAddInstanceVariableRefactoring
 		variable: anAttributeName
 		class: class) execute.
@@ -103,14 +103,14 @@ PPASTGeneratorStrategy >> createAttributeAndAccessorsFor: anAttributeName inClas
 ]
 
 { #category : #generation }
-PPASTGeneratorStrategy >> createPositionsInClass: aClass [
+PPTASTGeneratorStrategy >> createPositionsInClass: aClass [
 	self keepPositions
 		ifTrue: [ self createAttributeAndAccessorsFor: #startPosition inClass: aClass.
 			self createAttributeAndAccessorsFor: #stopPosition inClass: aClass ]
 ]
 
 { #category : #dispatch }
-PPASTGeneratorStrategy >> if: aRuleName shouldBeFlatten: aFlattenBlock else: aDefaultBlock [
+PPTASTGeneratorStrategy >> if: aRuleName shouldBeFlatten: aFlattenBlock else: aDefaultBlock [
 	(self rulesToFlatten includes: aRuleName)
 		ifTrue: [ aFlattenBlock value ]
 		ifFalse: [ (self rulesToIgnore includes: aRuleName)
@@ -118,110 +118,110 @@ PPASTGeneratorStrategy >> if: aRuleName shouldBeFlatten: aFlattenBlock else: aDe
 ]
 
 { #category : #dispatch }
-PPASTGeneratorStrategy >> if: aRuleName shouldBeIgnored: ignoreBlock else: aDefaultBlock [
+PPTASTGeneratorStrategy >> if: aRuleName shouldBeIgnored: ignoreBlock else: aDefaultBlock [
 	^ (self rulesToIgnore includes: aRuleName)
 		ifTrue: [ ignoreBlock value ]
 		ifFalse: [ aDefaultBlock value ]
 ]
 
 { #category : #initialization }
-PPASTGeneratorStrategy >> initialize [ 
+PPTASTGeneratorStrategy >> initialize [ 
 	super initialize.
 	self keepPositions: false.
 ]
 
 { #category : #accessing }
-PPASTGeneratorStrategy >> keepPositions [
+PPTASTGeneratorStrategy >> keepPositions [
 	^ keepPositions
 ]
 
 { #category : #accessing }
-PPASTGeneratorStrategy >> keepPositions: anObject [
+PPTASTGeneratorStrategy >> keepPositions: anObject [
 	keepPositions := anObject
 ]
 
 { #category : #options }
-PPASTGeneratorStrategy >> nodeInstanceCreationOptions [
+PPTASTGeneratorStrategy >> nodeInstanceCreationOptions [
 	^ self keepPositions ifTrue: [ 'startPosition: production start; stopPosition: production stop; ' ] ifFalse: [ '' ]
 ]
 
 { #category : #className }
-PPASTGeneratorStrategy >> obtainParserClassFrom: aClass [
+PPTASTGeneratorStrategy >> obtainParserClassFrom: aClass [
 	^ self parserClass isClosure
 		ifTrue: [ self parserClass value: aClass ]
 		ifFalse: [ self parserClass ]
 ]
 
 { #category : #accessing }
-PPASTGeneratorStrategy >> parserClass [
+PPTASTGeneratorStrategy >> parserClass [
 	^ parserClass
 ]
 
 { #category : #accessing }
-PPASTGeneratorStrategy >> parserClass: anObject [
+PPTASTGeneratorStrategy >> parserClass: anObject [
 	parserClass := anObject
 ]
 
 { #category : #accessing }
-PPASTGeneratorStrategy >> parserPackage [
+PPTASTGeneratorStrategy >> parserPackage [
 	^ parserPackage
 ]
 
 { #category : #accessing }
-PPASTGeneratorStrategy >> parserPackage: anObject [
+PPTASTGeneratorStrategy >> parserPackage: anObject [
 	parserPackage := anObject
 ]
 
 { #category : #options }
-PPASTGeneratorStrategy >> productionAccess [
+PPTASTGeneratorStrategy >> productionAccess [
 	^ self keepPositions
 		ifTrue: [ 'production content' ]
 		ifFalse: [ #production ]
 ]
 
 { #category : #options }
-PPASTGeneratorStrategy >> rulesDecoration [
+PPTASTGeneratorStrategy >> rulesDecoration [
 	^ self keepPositions
 		ifTrue: [ 'withPositions ' ]
 		ifFalse: [ '' ]
 ]
 
 { #category : #accessing }
-PPASTGeneratorStrategy >> rulesToFlatten [
+PPTASTGeneratorStrategy >> rulesToFlatten [
 	^ rulesToFlatten
 ]
 
 { #category : #accessing }
-PPASTGeneratorStrategy >> rulesToFlatten: anObject [
+PPTASTGeneratorStrategy >> rulesToFlatten: anObject [
 	rulesToFlatten := anObject
 ]
 
 { #category : #accessing }
-PPASTGeneratorStrategy >> rulesToIgnore [
+PPTASTGeneratorStrategy >> rulesToIgnore [
 	^ rulesToIgnore
 ]
 
 { #category : #accessing }
-PPASTGeneratorStrategy >> rulesToIgnore: anObject [
+PPTASTGeneratorStrategy >> rulesToIgnore: anObject [
 	rulesToIgnore := anObject
 ]
 
 { #category : #accessing }
-PPASTGeneratorStrategy >> visitorClass [
+PPTASTGeneratorStrategy >> visitorClass [
 	^ visitorClass
 ]
 
 { #category : #accessing }
-PPASTGeneratorStrategy >> visitorClass: anObject [
+PPTASTGeneratorStrategy >> visitorClass: anObject [
 	visitorClass := anObject
 ]
 
 { #category : #accessing }
-PPASTGeneratorStrategy >> visitorPackage [
+PPTASTGeneratorStrategy >> visitorPackage [
 	^ visitorPackage
 ]
 
 { #category : #accessing }
-PPASTGeneratorStrategy >> visitorPackage: anObject [
+PPTASTGeneratorStrategy >> visitorPackage: anObject [
 	visitorPackage := anObject
 ]
