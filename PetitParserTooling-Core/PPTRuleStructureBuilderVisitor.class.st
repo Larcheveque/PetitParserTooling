@@ -41,12 +41,14 @@ PPTRuleStructureBuilderVisitor >> visitDelegate: aPP2DelegateNode [
 	^ self generationStrategy
 		if: aPP2DelegateNode name
 		shouldBeIgnored: [ nil ]
-		else: [ PPTRuleLeaf
-				name:
-					(self ruleRenaming
-						at: aPP2DelegateNode name
-						ifPresent: [ :renamingStack | renamingStack pop ]
-						ifAbsent: [ aPP2DelegateNode name ]) ]
+		else: [ (self shouldBeLocalyIgnored: aPP2DelegateNode name)
+				ifTrue: [ nil ]
+				ifFalse: [ PPTRuleLeaf
+						name:
+							(self ruleRenaming
+								at: aPP2DelegateNode name
+								ifPresent: [ :renamingStack | renamingStack pop ]
+								ifAbsent: [ aPP2DelegateNode name ]) ] ]
 ]
 
 { #category : #visit }
