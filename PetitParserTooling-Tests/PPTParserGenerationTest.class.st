@@ -10,8 +10,8 @@ Class {
 { #category : #'as yet unclassified' }
 PPTParserGenerationTest >> rule: aRuleSourceCode shouldProduceParser: aParserSourceCode [
 	| visitor ast parser structure ruleName |
-	visitor := PPTParserTestVisitor new.
 	ast := self class compiler parse: aRuleSourceCode.
+	visitor := PPTParserTestVisitor new.
 	ruleName := ast selector.
 	ast body acceptVisitor: visitor.
 	parser := PP2DelegateNode
@@ -19,7 +19,7 @@ PPTParserGenerationTest >> rule: aRuleSourceCode shouldProduceParser: aParserSou
 	parser name: ast selector.
 	structure := (PPTRuleStructureBuilderVisitor
 		newWithStrategy: strategy
-		onRule: ruleName) visitGrammarRule: parser.
+		onRule: ast) visitGrammarRule: parser.
 	self
 		assert:
 			ruleName
@@ -36,7 +36,8 @@ PPTParserGenerationTest >> rule: aRuleSourceCode shouldProduceParser: aParserSou
 
 { #category : #'as yet unclassified' }
 PPTParserGenerationTest >> setUp [ 
-	strategy := PPASTGeneratorStrategy testStrategy 
+	strategy := PPTASTGeneratorStrategy testStrategy.
+	
 ]
 
 { #category : #'as yet unclassified' }
@@ -49,6 +50,20 @@ PPTParserGenerationTest >> testAtPositionPlusAtPosition [
 			'sequence
 	<generated>
 	^ super sequence ==> [ :production | ASTNodeSequence new ruleA: (production at: 3); ruleBs: ((production at: 4) collect: [:subProduction | subProduction at: 2]); yourself ]'
+]
+
+{ #category : #'as yet unclassified' }
+PPTParserGenerationTest >> testIgnore [
+	"visitor ruleLocalIgnoring add: #toIgnore".
+	self
+		rule:
+			'myRule
+	<ignore: #toIgnore>
+	^ ruleA, (toIgnore / $r parser)'
+		shouldProduceParser:
+			'myRule
+	<generated>
+	^ super myRule ==> [ :production | ASTNodeMyRule new ruleA: (production at: 1); yourself ]'
 ]
 
 { #category : #'as yet unclassified' }
