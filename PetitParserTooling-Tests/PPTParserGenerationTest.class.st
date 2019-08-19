@@ -75,7 +75,13 @@ PPTParserGenerationTest >> testKeepPositionPlus [
 		shouldProduceParser:
 			'sequence
 	<generated>
-	^ super sequence ==> [ :production | ASTNodeSequence new startPosition: production start; stopPosition: production stop; ruleAs: production content; yourself ]'
+	^ super sequence
+		==> [ :production | 
+			ASTNodeSequence new
+				startPosition: production start;
+				stopPosition: production stop;
+				ruleAs: production content;
+				yourself ]'
 ]
 
 { #category : #'as yet unclassified' }
