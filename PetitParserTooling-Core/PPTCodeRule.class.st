@@ -8,20 +8,14 @@ Class {
 		'ruleName',
 		'nodeName',
 		'productionNode',
-		'instanceCreationOptionNodes',
 		'keepPositions'
 	],
 	#category : #'PetitParserTooling-Core'
 }
 
-{ #category : #accessing }
-PPTCodeRule >> instanceCreationOptionNodes [
-	^ instanceCreationOptionNodes
-]
-
-{ #category : #accessing }
-PPTCodeRule >> instanceCreationOptionNodes: anObject [
-	instanceCreationOptionNodes := anObject
+{ #category : #'attribute management' }
+PPTCodeRule >> allAssignations [
+	^ self productionNode allAssignations
 ]
 
 { #category : #accessing }

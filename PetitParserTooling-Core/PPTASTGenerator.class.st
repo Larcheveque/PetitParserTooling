@@ -14,11 +14,7 @@ Class {
 PPTASTGenerator class >> createASTNodeForRule: aRule ruleStructure: aRuleStructure generationStrategy: aGenerationStrategy [
 	| astClass |
 	astClass := aGenerationStrategy createAstNodeClass: aRule.
-	(aRuleStructure
-		obtainCodeRepresentation:
-			(PPTCodeProduction
-				productionName: aGenerationStrategy productionAccess
-				keepPositions: aGenerationStrategy keepPositions)) allAssignations
+	aRuleStructure allAssignations
 		do: [ :anAssignation | 
 			aGenerationStrategy
 				createAttributeAndAccessorsFor: anAssignation finalName
@@ -89,21 +85,7 @@ PPTASTGenerator class >> createFlattenVisitingMethod: aRule generationStrategy: 
 
 { #category : #creation }
 PPTASTGenerator class >> createRule: aRule inParser: parserClass ruleStructure: aRuleStructure generationStrategy: aGenerationStrategy [
-	parserClass
-		compile:
-			aRule
-				,
-					'
-	<generated>
-	^ super ' , aRule , ' ' , aGenerationStrategy rulesDecoration
-				, '==> [ :production | '
-				, (aGenerationStrategy astNodeClassNameForRule: aRule) , ' new '
-				, aGenerationStrategy nodeInstanceCreationOptions
-				,
-					(aRuleStructure
-						methodCodeForProductionName: aGenerationStrategy productionAccess)
-				, '; yourself ]'
-		classified: #rules
+	aRuleStructure obtainPCGNode installOn: parserClass
 ]
 
 { #category : #generation }
@@ -211,6 +193,7 @@ PPTASTGenerator class >> generateEverythingFrom: aGrammarClass generationStrateg
 						createFlattenVisitingMethod: aGrammarRule
 						generationStrategy: aGenerationStrategy ]
 				else: [ | ruleStructure |
+						Halt now.
 					ruleStructure := self
 						obtainRuleStructureFor: aGrammarRule
 						generationStrategy: aGenerationStrategy
@@ -233,13 +216,9 @@ PPTASTGenerator class >> generateEverythingFrom: aGrammarClass generationStrateg
 { #category : #construction }
 PPTASTGenerator class >> obtainRuleStructureFor: aRuleName generationStrategy: aPPASTGeneratorStrategy grammar: aGrammarPPInstance [
 	| aRule |
-	aRule := (aGrammarPPInstance class lookupSelector: aRuleName).
-	aRule pragmas
-		select: [ :aPragma | aPragma key = 'reifyAllInto:' ]
-		thenDo:
-			[ :aValidPragma | ^ PPTRuleLeaf name: aValidPragma arguments first ].
-	^ (PPTRuleStructureBuilderVisitor
-		newWithStrategy: aPPASTGeneratorStrategy
-		onRule: aRule)
-		visitGrammarRule: (aGrammarPPInstance productionAt: aRuleName)
+	aRule := aGrammarPPInstance class lookupSelector: aRuleName.
+	^ PPTRuleStructureBuilderVisitor
+		obtainStructureFromRule: aRule
+		parser: (aGrammarPPInstance productionAt: aRuleName)
+		withStrategy: aPPASTGeneratorStrategy
 ]

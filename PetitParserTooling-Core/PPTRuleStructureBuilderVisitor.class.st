@@ -78,6 +78,8 @@ PPTRuleStructureBuilderVisitor >> visitFlatten: aPP2FlattenNode [
 
 { #category : #'entry-point' }
 PPTRuleStructureBuilderVisitor >> visitGrammarRule: aGrammarRule [
+	self globalReification
+		ifNotNil: [ ^ PPTRuleLeaf name: self globalReification ].
 	^ [ ([ aGrammarRule child accept: self ]
 		on: PPTChoiceReificationNotDefined
 		do: [ :exception | 

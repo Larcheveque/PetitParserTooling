@@ -8,7 +8,8 @@ Class {
 		'generationStrategy',
 		'ruleReifications',
 		'ruleRenaming',
-		'ruleLocalIgnoring'
+		'ruleLocalIgnoring',
+		'globalReification'
 	],
 	#category : #'PetitParserTooling-Core'
 }
@@ -45,7 +46,11 @@ PPTGeneratorVisitor >> configureReifications: aRuleMethod [
 				select: [ :aPragma | aPragma selector = 'reify:into:' ]
 				thenCollect: [ :aValidPragma | 
 					(aValidPragma arguments first value reject: [ :el | el = #/ ])
-						-> aValidPragma arguments second value ]) asDictionary
+						-> aValidPragma arguments second value ]) asDictionary.
+	aRuleMethod pragmas
+		select: [ :aPragma | aPragma selector = 'reifyAllInto:' ]
+		thenDo:
+			[ :aValidPragma | self globalReification: aValidPragma arguments first value]
 ]
 
 { #category : #config }
@@ -71,6 +76,16 @@ PPTGeneratorVisitor >> generationStrategy [
 { #category : #accessing }
 PPTGeneratorVisitor >> generationStrategy: anObject [
 	generationStrategy := anObject
+]
+
+{ #category : #accessing }
+PPTGeneratorVisitor >> globalReification [
+	^ globalReification
+]
+
+{ #category : #accessing }
+PPTGeneratorVisitor >> globalReification: anObject [
+	globalReification := anObject
 ]
 
 { #category : #initialization }
