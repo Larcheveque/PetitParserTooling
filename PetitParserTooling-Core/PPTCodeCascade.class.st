@@ -29,6 +29,25 @@ PPTCodeCascade >> codes: anObject [
 	codes := anObject
 ]
 
+{ #category : #helper }
+PPTCodeCascade >> obtainCascadePCGNode [
+	^ self obtainPCGNode 
+]
+
+{ #category : #pcg }
+PPTCodeCascade >> obtainPCGNode [
+	| cascade |
+	cascade := PCGCascadeNode new.
+	self codes
+		do: [ :aCode | 
+			| pcgNode |
+			pcgNode := aCode obtainPCGNode.
+			pcgNode class = PCGCascadeNode
+				ifTrue: [ cascade messages addAll: pcgNode messages ]
+				ifFalse: [ cascade addMessage: pcgNode ] ].
+	^ cascade
+]
+
 { #category : #optional }
 PPTCodeCascade >> optional [
 	self codes: ( self codes collect: #optional).

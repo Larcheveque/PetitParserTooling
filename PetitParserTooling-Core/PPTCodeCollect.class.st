@@ -23,6 +23,28 @@ PPTCodeCollect >> allAssignations [
 	^ self receiver allAssignations 
 ]
 
+{ #category : #pcg }
+PPTCodeCollect >> obtainPCGNode [
+	| receiverNode |
+	receiverNode := self receiver obtainPCGNode.
+	receiverNode
+		arguments:
+			{(PCGMessageNode
+				receiver: receiverNode arguments first
+				selector: #collect:
+				arguments:
+					{(PCGBlockNode
+						arguments: {self subProductionCode obtainPCGNode}
+						body:
+							(PCGSequenceNode
+								statements:
+									(PCGMessageNode
+										receiver: self subProductionCode obtainPCGNode
+										selector: #at:
+										arguments: self position asPCG)))})}.
+	^ receiverNode
+]
+
 { #category : #accessing }
 PPTCodeCollect >> position [
 	^ position

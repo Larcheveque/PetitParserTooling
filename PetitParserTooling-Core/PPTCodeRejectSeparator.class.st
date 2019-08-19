@@ -22,6 +22,14 @@ PPTCodeRejectSeparator >> code: anObject [
 	code := anObject
 ]
 
+{ #category : #pcg }
+PPTCodeRejectSeparator >> obtainPCGNode [
+	^ PCGMessageNode
+		receiver: #self asPCGNode
+		selector: #rejectSeparators:
+		arguments: {self code obtainPCGNode}
+]
+
 { #category : #serialization }
 PPTCodeRejectSeparator >> optional [
 	^ PPTIfNotNilCode new

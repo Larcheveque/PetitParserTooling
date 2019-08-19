@@ -1,3 +1,6 @@
+"
+I am an abstract visitor for generator based on a PPTASTGeneratorStrategy
+"
 Class {
 	#name : #PPTGeneratorVisitor,
 	#superclass : #Object,

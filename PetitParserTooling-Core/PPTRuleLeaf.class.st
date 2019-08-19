@@ -27,6 +27,11 @@ PPTRuleLeaf >> obtainCodeRepresentation: aPPTCode [
 		yourself
 ]
 
+{ #category : #pcg }
+PPTRuleLeaf >> obtainPCGNode [ 
+	self shouldBeImplemented.
+]
+
 { #category : #properties }
 PPTRuleLeaf >> printOn: aStream [
 	super printOn: aStream.

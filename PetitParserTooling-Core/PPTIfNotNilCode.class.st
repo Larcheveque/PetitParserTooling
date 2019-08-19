@@ -18,6 +18,16 @@ PPTIfNotNilCode >> codeInBlock: anObject [
 	codeInBlock := anObject
 ]
 
+{ #category : #pcg }
+PPTIfNotNilCode >> obtainPCGNode [
+	self testCode isCodeProduction
+		ifTrue: [ ^ self codeInBlock obtainPCGNode ].
+	^ PCGMessageNode
+		receiver: self testCode obtainPCGNode
+		selector: #ifNotNil:
+		arguments: {self codeInBlock obtainPCGNode inBlock}
+]
+
 { #category : #serialization }
 PPTIfNotNilCode >> serializeOn: aStream [ 
 	aStream nextPut: $(.

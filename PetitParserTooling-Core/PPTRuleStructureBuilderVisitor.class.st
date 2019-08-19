@@ -1,8 +1,24 @@
+"
+I am the visitor that create all PPTRule tree from any parser
+"
 Class {
 	#name : #PPTRuleStructureBuilderVisitor,
 	#superclass : #PPTGeneratorVisitor,
 	#category : #'PetitParserTooling-Core'
 }
+
+{ #category : #'as yet unclassified' }
+PPTRuleStructureBuilderVisitor class >> obtainStructureFromRule: ast parser: parser withStrategy: strategy [
+	| productionNode |
+	productionNode := ((self newWithStrategy: strategy onRule: ast)
+		visitGrammarRule: parser)
+		obtainCodeRepresentation: (PPTCodeProduction productionName: strategy productionAccess).
+	^ PPTCodeRule new
+		ruleName: ast selector;
+		nodeName: (strategy astNodeClassNameForRule: ast selector);
+		productionNode: productionNode;
+		yourself
+]
 
 { #category : #visit }
 PPTRuleStructureBuilderVisitor >> visitAction: aPP2ActionNode [

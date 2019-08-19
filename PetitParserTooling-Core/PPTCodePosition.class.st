@@ -18,6 +18,14 @@ PPTCodePosition >> code: anObject [
 	code := anObject
 ]
 
+{ #category : #pcg }
+PPTCodePosition >> obtainPCGNode [
+	^ PCGMessageNode
+		receiver: self code obtainPCGNode
+		selector: #at:
+		arguments: {self position asPCG}
+]
+
 { #category : #generation }
 PPTCodePosition >> obtainSubProduction [
 	^ self code obtainSubProduction 

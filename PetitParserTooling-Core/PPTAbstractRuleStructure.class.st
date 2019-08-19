@@ -20,3 +20,8 @@ PPTAbstractRuleStructure >> methodCodeForProductionName: aProductionName [
 PPTAbstractRuleStructure >> obtainCodeRepresentation: aPPTCode [
 	^ self subclassResponsibility 
 ]
+
+{ #category : #serialization }
+PPTAbstractRuleStructure >> obtainPCGNodeFrom: productionPCGNode [
+	^ self subclassResponsibility 
+]

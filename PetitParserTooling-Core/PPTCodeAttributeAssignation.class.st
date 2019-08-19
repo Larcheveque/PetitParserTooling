@@ -68,6 +68,14 @@ PPTCodeAttributeAssignation >> name: anObject [
 	name := anObject
 ]
 
+{ #category : #serialization }
+PPTCodeAttributeAssignation >> obtainPCGNode [
+	^ PCGMessageNode new
+		selector: self finalName asMutator;
+		arguments: {self assignedNode obtainPCGNode};
+		yourself
+]
+
 { #category : #optional }
 PPTCodeAttributeAssignation >> optional [
 	self assignedNode: (self assignedNode optional).
@@ -88,9 +96,8 @@ PPTCodeAttributeAssignation >> rejectSeparator [
 
 { #category : #serialization }
 PPTCodeAttributeAssignation >> serializeOn: aStream [
-	aStream nextPutAll: self finalName.
-	aStream nextPutAll: ': '.
-	self assignedNode serializeOn: aStream
+	Halt now.
+	aStream nextPutAll: self obtainPCGNode sourceCode
 ]
 
 { #category : #serialization }

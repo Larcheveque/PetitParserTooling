@@ -24,6 +24,11 @@ PPTCodeProduction >> isCodeProduction [
 	^ true
 ]
 
+{ #category : #pcg }
+PPTCodeProduction >> obtainPCGNode [
+	^ self productionName asSymbol asPCGArgument
+]
+
 { #category : #generation }
 PPTCodeProduction >> obtainSubProduction [
 	^ PPTCodeProduction

@@ -4,9 +4,26 @@ Class {
 	#category : #'PetitParserTooling-Core'
 }
 
+{ #category : #source }
+PPTCode >> generatedSourceCode [
+	^ self obtainPCGNode sourceCode
+]
+
 { #category : #testing }
 PPTCode >> isCodeProduction [
 	^ false
+]
+
+{ #category : #helper }
+PPTCode >> obtainCascadePCGNode [
+	^ PCGCascadeNode new
+		addMessage: self obtainPCGNode;
+		yourself
+]
+
+{ #category : #pcg }
+PPTCode >> obtainPCGNode [
+	^ self subclassResponsibility
 ]
 
 { #category : #generation }
