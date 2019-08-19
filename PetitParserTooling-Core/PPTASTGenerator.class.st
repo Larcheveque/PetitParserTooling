@@ -104,12 +104,7 @@ PPTASTGenerator class >> createVisitingMethodForRule: aRule ruleStructure: aPPTR
 					('
 	'
 						join:
-							((aPPTRule
-								obtainCodeRepresentation:
-									(PPTCodeProduction
-										productionName: aPPASTGeneratorStrategy productionAccess
-										keepPositions: aPPASTGeneratorStrategy keepPositions))
-								allAssignations
+							(aPPTRule allAssignations
 								collect: [ :anAssignation | 
 									'self visit'
 										,
@@ -193,7 +188,6 @@ PPTASTGenerator class >> generateEverythingFrom: aGrammarClass generationStrateg
 						createFlattenVisitingMethod: aGrammarRule
 						generationStrategy: aGenerationStrategy ]
 				else: [ | ruleStructure |
-						Halt now.
 					ruleStructure := self
 						obtainRuleStructureFor: aGrammarRule
 						generationStrategy: aGenerationStrategy
