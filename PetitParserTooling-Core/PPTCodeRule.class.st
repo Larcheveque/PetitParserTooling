@@ -44,7 +44,9 @@ PPTCodeRule >> obtainPCGNode [
 		bodyBlock: [ :body | 
 			body
 				<<
-					((#super asPCGNode receiveMessage: self ruleName)
+					(((#super asPCGNode receiveMessage: self ruleName)
+						receiveMessage: #withPositions
+						if: self keepPositions)
 						receiveMessage: #==>
 						with:
 							((PCGBlockNode arguments: {#production asPCGArgument})

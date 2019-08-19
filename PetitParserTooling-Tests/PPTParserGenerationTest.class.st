@@ -75,7 +75,7 @@ PPTParserGenerationTest >> testKeepPositionPlus [
 		shouldProduceParser:
 			'sequence
 	<generated>
-	^ super sequence
+	^ super sequence withPositions
 		==> [ :production | 
 			ASTNodeSequence new
 				startPosition: production start;
