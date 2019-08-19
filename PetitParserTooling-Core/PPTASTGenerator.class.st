@@ -52,20 +52,35 @@ PPTASTGenerator class >> createFlattenNodeForRule: aRule generationStrategy: aPP
 
 { #category : #generation }
 PPTASTGenerator class >> createFlattenRule: aRuleName inParser: parserClass followingGenerationStrategy: aPPASTGeneratorStrategy [
-	parserClass
-		compile:
-			aRuleName
-				,
-					'
-	<generated>
-	^ super ' , aRuleName , ' flatten '
-				, aPPASTGeneratorStrategy rulesDecoration
-				, ' ==> [ :production | '
-				, (aPPASTGeneratorStrategy astNodeClassNameForRule: aRuleName)
-				, ' new ' , aPPASTGeneratorStrategy nodeInstanceCreationOptions
-				, aRuleName , ': ' , aPPASTGeneratorStrategy productionAccess
-				, '; yourself ]'
-		classified: 'rules'
+	(PCGMethodNode selector: aRuleName)
+		bodyBlock: [ :body | 
+			body
+				<<
+					((((#super asPCGNode receiveMessage: aRuleName)
+						receiveMessage: #flatten)
+						receiveMessage: #withPositions
+						if: aPPASTGeneratorStrategy keepPositions)
+						receiveMessage: #==>
+						with:
+							((PCGBlockNode arguments: {#production asPCGArgument})
+								bodyBlock: [ :body1 | 
+									body1
+										<<
+											((#PWBASTIdentifier asPCGGlobal receiveMessage: #new) asCascadeTarget
+												receiveMessage: #startPosition:
+													with: (#production asPCGArgument receiveMessage: #start)
+													if: aPPASTGeneratorStrategy keepPositions;
+												receiveMessage: #stopPosition:
+													with: (#production asPCGArgument receiveMessage: #stop)
+													if: aPPASTGeneratorStrategy keepPositions;
+												receiveMessage: aRuleName asMutator
+													with:
+													(#production asPCGArgument
+														receiveMessage: #content
+														if: aPPASTGeneratorStrategy keepPositions);
+												receiveMessage: #yourself) ])) returnIt ];
+		protocol: #rules;
+		installOn: parserClass
 ]
 
 { #category : #generation }
