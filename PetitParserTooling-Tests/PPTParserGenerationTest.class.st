@@ -135,6 +135,23 @@ PPTParserGenerationTest >> testPlusAtPosition [
 ]
 
 { #category : #'as yet unclassified' }
+PPTParserGenerationTest >> testReifyAllInto [
+	self
+		rule:
+			'bigChoice
+	<reifyAllInto: #choice>
+	^ a / b / c / d / e / f / (g, h)'
+		shouldProduceParser:
+			'bigChoice
+	<generated>
+	^ super bigChoice
+		==> [ :production | 
+			ASTNodeBigChoice new
+				choice: production;
+				yourself ]'
+]
+
+{ #category : #'as yet unclassified' }
 PPTParserGenerationTest >> testSeparatedByWithPosition [
 	self
 		rule:
