@@ -66,7 +66,8 @@ PPTASTGenerator class >> createFlattenRule: aRuleName inParser: parserClass foll
 								bodyBlock: [ :body1 | 
 									body1
 										<<
-											((#PWBASTIdentifier asPCGGlobal receiveMessage: #new) asCascadeTarget
+											(((aPPASTGeneratorStrategy astNodeClassNameForRule: aRuleName)
+												asPCGGlobal receiveMessage: #new) asCascadeTarget
 												receiveMessage: #startPosition:
 													with: (#production asPCGArgument receiveMessage: #start)
 													if: aPPASTGeneratorStrategy keepPositions;
