@@ -59,16 +59,14 @@ PPTCodeRule >> obtainPCGNode [
 										<<
 											(self productionNode obtainCascadePCGNode
 												target: (self nodeName asPCGGlobal receiveMessage: #new);
+												receiveFirstMessage: #stopPosition:
+													with: (#production asPCGArgument receiveMessage: #stop)
+													if: self keepPositions;
+												receiveFirstMessage: #startPosition:
+													with: (#production asPCGArgument receiveMessage: #start)
+													if: self keepPositions;
 												receiveMessage: #yourself;
-												yourself)
-									"receiveMessage: #startPosition:
-												with: (#production asPCGArgument receiveMessage: #start);
-											receiveMessage: #stopPosition:
-												with: (#production asPCGArgument receiveMessage: #stop);
-											receiveMessage: #content:
-												with: (#production asPCGArgument receiveMessage: #content);" ]))
-						returnIt
-			"receiveMessage: #withPositions if: keepPositions" ];
+												yourself) ])) returnIt ];
 		protocol: #rules;
 		yourself
 ]

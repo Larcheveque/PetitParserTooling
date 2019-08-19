@@ -15,8 +15,10 @@ PPTASTGenerator class >> createASTNodeForRule: aRule ruleStructure: aRuleStructu
 	| astClass |
 	astClass := aGenerationStrategy createAstNodeClass: aRule.
 	(aRuleStructure
-		obtainCodeRepresentation: (PPTCodeProduction productionName: aGenerationStrategy productionAccess))
-		allAssignations
+		obtainCodeRepresentation:
+			(PPTCodeProduction
+				productionName: aGenerationStrategy productionAccess
+				keepPositions: aGenerationStrategy keepPositions)) allAssignations
 		do: [ :anAssignation | 
 			aGenerationStrategy
 				createAttributeAndAccessorsFor: anAssignation finalName
@@ -27,8 +29,7 @@ PPTASTGenerator class >> createASTNodeForRule: aRule ruleStructure: aRuleStructu
 	<generated>
 	^ aVisitor visit' , astClass name , ': self'
 		classified: #visiting.
-	aGenerationStrategy
-				createPositionsInClass: astClass.
+	aGenerationStrategy createPositionsInClass: astClass
 ]
 
 { #category : #generation }
@@ -124,7 +125,8 @@ PPTASTGenerator class >> createVisitingMethodForRule: aRule ruleStructure: aPPTR
 							((aPPTRule
 								obtainCodeRepresentation:
 									(PPTCodeProduction
-										productionName: aPPASTGeneratorStrategy productionAccess))
+										productionName: aPPASTGeneratorStrategy productionAccess
+										keepPositions: aPPASTGeneratorStrategy keepPositions))
 								allAssignations
 								collect: [ :anAssignation | 
 									'self visit'

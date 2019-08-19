@@ -12,11 +12,15 @@ PPTRuleStructureBuilderVisitor class >> obtainStructureFromRule: ast parser: par
 	| productionNode |
 	productionNode := ((self newWithStrategy: strategy onRule: ast)
 		visitGrammarRule: parser)
-		obtainCodeRepresentation: (PPTCodeProduction productionName: strategy productionAccess).
+		obtainCodeRepresentation:
+			(PPTCodeProduction
+				productionName: strategy productionAccess
+				keepPositions: strategy keepPositions).
 	^ PPTCodeRule new
 		ruleName: ast selector;
 		nodeName: (strategy astNodeClassNameForRule: ast selector);
 		productionNode: productionNode;
+		keepPositions: strategy keepPositions;
 		yourself
 ]
 

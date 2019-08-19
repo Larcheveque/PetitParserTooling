@@ -2,7 +2,8 @@ Class {
 	#name : #PPTCodeProduction,
 	#superclass : #PPTCode,
 	#instVars : [
-		'productionName'
+		'productionName',
+		'keepPositions'
 	],
 	#category : #'PetitParserTooling-Core'
 }
@@ -14,9 +15,23 @@ PPTCodeProduction class >> productionName: aString [
 		yourself
 ]
 
+{ #category : #'instance creation' }
+PPTCodeProduction class >> productionName: aString keepPositions: aBoolean [
+	^ self new
+		productionName: aString;
+		keepPositions: aBoolean;
+		yourself
+]
+
 { #category : #experimental }
 PPTCodeProduction >> collectReceiver [
 	^ self
+]
+
+{ #category : #accessing }
+PPTCodeProduction >> initialize [
+	super initialize.
+	self keepPositions: false
 ]
 
 { #category : #generation }
@@ -24,15 +39,29 @@ PPTCodeProduction >> isCodeProduction [
 	^ true
 ]
 
+{ #category : #accessing }
+PPTCodeProduction >> keepPositions [
+	^ keepPositions
+]
+
+{ #category : #accessing }
+PPTCodeProduction >> keepPositions: anObject [
+	keepPositions := anObject
+]
+
 { #category : #pcg }
 PPTCodeProduction >> obtainPCGNode [
-	^ self productionName asSymbol asPCGArgument
+	self keepPositions
+		ifTrue: [ ^ PCGMessageNode
+				receiver: self productionName asSymbol asPCGArgument
+				selector: #content ]
+		ifFalse: [ ^ self productionName asSymbol asPCGArgument ]
 ]
 
 { #category : #generation }
 PPTCodeProduction >> obtainSubProduction [
 	^ PPTCodeProduction
-		productionName: 'sub' , self productionName substrings first capitalized
+		productionName: 'sub' , self productionName capitalized
 ]
 
 { #category : #optional }

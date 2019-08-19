@@ -174,9 +174,7 @@ PPTASTGeneratorStrategy >> parserPackage: anObject [
 
 { #category : #options }
 PPTASTGeneratorStrategy >> productionAccess [
-	^ self keepPositions
-		ifTrue: [ 'production content' ]
-		ifFalse: [ #production ]
+	^ #production
 ]
 
 { #category : #options }
