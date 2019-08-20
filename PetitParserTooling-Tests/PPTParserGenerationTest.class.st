@@ -31,6 +31,24 @@ PPTParserGenerationTest >> setUp [
 ]
 
 { #category : #'as yet unclassified' }
+PPTParserGenerationTest >> testAknowledgePresence [
+	self
+		rule:
+			'myRule
+	<aknowledgePresence: #aToken>
+	^ ruleA, ''aToken'' parser optional'
+		shouldProduceParser:
+			'myRule
+	<generated>
+	^ super myRule
+		==> [ :production | 
+			ASTNodeMyRule new
+				ruleA: (production at: 1);
+				aToken: (production at: 2) notNil;
+				yourself ]'
+]
+
+{ #category : #'as yet unclassified' }
 PPTParserGenerationTest >> testAtPositionPlusAtPosition [
 	self
 		rule:
@@ -81,6 +99,22 @@ PPTParserGenerationTest >> testKeepPositionPlus [
 				startPosition: production start;
 				stopPosition: production stop;
 				ruleAs: production content;
+				yourself ]'
+]
+
+{ #category : #'as yet unclassified' }
+PPTParserGenerationTest >> testNoAknowledgePresence [
+	self
+		rule:
+			'myRule
+	^ ruleA, ''aToken'' parser optional'
+		shouldProduceParser:
+			'myRule
+	<generated>
+	^ super myRule
+		==> [ :production | 
+			ASTNodeMyRule new
+				ruleA: (production at: 1);
 				yourself ]'
 ]
 
