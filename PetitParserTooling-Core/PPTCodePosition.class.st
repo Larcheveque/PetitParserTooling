@@ -54,13 +54,3 @@ PPTCodePosition >> position [
 PPTCodePosition >> position: anObject [
 	position := anObject
 ]
-
-{ #category : #serialization }
-PPTCodePosition >> serializeOn: aStream [
-	aStream nextPutAll: '('.
-	self code serializeOn: aStream.
-	aStream
-		nextPutAll: ' at: ';
-		nextPutAll: self position asString;
-		nextPutAll: ')'
-]

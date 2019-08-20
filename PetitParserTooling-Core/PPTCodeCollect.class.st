@@ -65,19 +65,6 @@ PPTCodeCollect >> receiver: anObject [
 	receiver := anObject
 ]
 
-{ #category : #serialization }
-PPTCodeCollect >> serializeOn: aStream [
-	self receiver serializeWithOpeningBracketOn: aStream.
-	aStream nextPutAll: ' collect: [:'.
-	self subProductionCode serializeOn: aStream.
-	aStream nextPutAll: ' | '.
-	self subProductionCode serializeOn: aStream.
-	aStream
-		nextPutAll: ' at: ';
-		nextPutAll: self position asString;
-		nextPutAll: '])'
-]
-
 { #category : #accessing }
 PPTCodeCollect >> subProductionCode [
 	^ subProductionCode

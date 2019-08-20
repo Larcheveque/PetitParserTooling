@@ -28,15 +28,6 @@ PPTIfNotNilCode >> obtainPCGNode [
 		arguments: {self codeInBlock obtainPCGNode inBlock}
 ]
 
-{ #category : #serialization }
-PPTIfNotNilCode >> serializeOn: aStream [ 
-	aStream nextPut: $(.
-	self testCode serializeOn: aStream.
-	aStream nextPutAll: ' ifNotNil: ['.
-	self codeInBlock serializeOn: aStream.
-	aStream nextPutAll: '])'
-]
-
 { #category : #accessing }
 PPTIfNotNilCode >> testCode [
 	^ testCode

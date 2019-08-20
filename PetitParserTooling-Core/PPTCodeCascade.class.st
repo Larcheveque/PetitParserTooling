@@ -59,10 +59,3 @@ PPTCodeCascade >> pluralized [
 	self codes: (self codes collect: #pluralized).
 	^ self 
 ]
-
-{ #category : #serialization }
-PPTCodeCascade >> serializeOn: aStream [
-	self codes
-		do: [ :aPPTCode | aPPTCode serializeOn: aStream ]
-		separatedBy: [ aStream nextPutAll: '; ' ]
-]

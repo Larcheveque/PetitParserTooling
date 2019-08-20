@@ -37,10 +37,3 @@ PPTCodeRejectSeparator >> optional [
 		codeInBlock: self;
 		yourself
 ]
-
-{ #category : #serialization }
-PPTCodeRejectSeparator >> serializeOn: aStream [ 
-	aStream nextPutAll: '(self rejectSeparators: '.
-	self code serializeOn: aStream.
-	aStream nextPutAll: ')'.
-]

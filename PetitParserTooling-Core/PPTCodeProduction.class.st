@@ -84,8 +84,3 @@ PPTCodeProduction >> productionName [
 PPTCodeProduction >> productionName: anObject [
 	productionName := anObject
 ]
-
-{ #category : #serialization }
-PPTCodeProduction >> serializeOn: aWriteStream [ 
-	aWriteStream nextPutAll: self productionName 
-]

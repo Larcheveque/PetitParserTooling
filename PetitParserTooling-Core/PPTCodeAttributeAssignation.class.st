@@ -95,12 +95,6 @@ PPTCodeAttributeAssignation >> rejectSeparator [
 ]
 
 { #category : #serialization }
-PPTCodeAttributeAssignation >> serializeOn: aStream [
-	Halt now.
-	aStream nextPutAll: self obtainPCGNode sourceCode
-]
-
-{ #category : #serialization }
 PPTCodeAttributeAssignation >> serializeWithOpeningBracketOn: aStream [ 
 	aStream nextPutAll: self name.
 	self isPluralized
