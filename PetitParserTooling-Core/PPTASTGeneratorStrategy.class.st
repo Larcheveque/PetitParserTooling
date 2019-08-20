@@ -1,3 +1,8 @@
+"
+I am a strategy used by PPTASTGenerator.
+I define the rules that should be ignored, flattened.
+I define also where the visitors, AST nodes and parsers should be created.
+"
 Class {
 	#name : #PPTASTGeneratorStrategy,
 	#superclass : #Object,
@@ -51,8 +56,6 @@ PPTASTGeneratorStrategy class >> pwbUserObjectStrategy [
 { #category : #'as yet unclassified' }
 PPTASTGeneratorStrategy class >> testStrategy [
 	^ self new
-		rulesToFlatten: OrderedCollection new;
-		rulesToIgnore: OrderedCollection new;
 		astPrefix: #ASTNode;
 		yourself
 ]
@@ -125,9 +128,11 @@ PPTASTGeneratorStrategy >> if: aRuleName shouldBeIgnored: ignoreBlock else: aDef
 ]
 
 { #category : #initialization }
-PPTASTGeneratorStrategy >> initialize [ 
+PPTASTGeneratorStrategy >> initialize [
 	super initialize.
 	self keepPositions: false.
+	self rulesToFlatten: OrderedCollection new.
+	self rulesToIgnore: OrderedCollection new
 ]
 
 { #category : #accessing }

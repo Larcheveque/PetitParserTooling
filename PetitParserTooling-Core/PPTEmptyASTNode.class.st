@@ -1,3 +1,8 @@
+"
+I am an exception stored when in a rule nothing remains to be stored.
+It can happens if a rule depends on ignored rules and tokens only.
+The solution can be to ignore also this rule or to flatten this rule.
+"
 Class {
 	#name : #PPTEmptyASTNode,
 	#superclass : #Error,

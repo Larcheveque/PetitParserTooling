@@ -1,3 +1,6 @@
+"
+I am an abstract class that represent the parser code that will be then generated.
+"
 Class {
 	#name : #PPTCode,
 	#superclass : #Object,
