@@ -111,12 +111,19 @@ PPTRuleStructureBuilderVisitor >> visitNot: aPP2NotNode [
 ]
 
 { #category : #visit }
-PPTRuleStructureBuilderVisitor >> visitOptional: aPP2OptionalNode [ 
+PPTRuleStructureBuilderVisitor >> visitOptional: aPP2OptionalNode [
 	^ (aPP2OptionalNode child accept: self)
-		ifNotNil: [ :result | 
-			PPTRuleOptional new
-				rule: result;
-				yourself ]
+		in: [ :result | 
+			result isNotInteresting
+				ifFalse: [ PPTRuleOptional new
+						rule: result;
+						yourself ]
+				ifTrue: [ (result isToken
+						and: [ self shouldAknowledgePresenceOf: result token ])
+						ifTrue: [ PPTRuleOptional new
+								rule: result;
+								yourself ]
+						ifFalse: [ PPTRuleToIgnore new ] ] ]
 ]
 
 { #category : #visit }

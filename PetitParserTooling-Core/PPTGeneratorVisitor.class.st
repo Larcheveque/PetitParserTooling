@@ -9,7 +9,8 @@ Class {
 		'ruleReifications',
 		'ruleRenaming',
 		'ruleLocalIgnoring',
-		'globalReification'
+		'globalReification',
+		'aknowledgePresence'
 	],
 	#category : #'PetitParserTooling-Core'
 }
@@ -20,6 +21,28 @@ PPTGeneratorVisitor class >> newWithStrategy: aPPASTGeneratorStrategy onRule: aR
 		generationStrategy: aPPASTGeneratorStrategy;
 		configureOn: aRule;
 		yourself
+]
+
+{ #category : #accessing }
+PPTGeneratorVisitor >> aknowledgePresence [
+	^ aknowledgePresence
+]
+
+{ #category : #accessing }
+PPTGeneratorVisitor >> aknowledgePresence: anObject [
+	aknowledgePresence := anObject
+]
+
+{ #category : #config }
+PPTGeneratorVisitor >> configureAknowledgePresence: aRuleMethod [
+	self
+		aknowledgePresence:
+			(aRuleMethod pragmas
+				select: [ :aPragma | aPragma selector = 'aknowledgePresence:' ]
+				thenCollect: [ :aValidPragma | 
+					aValidPragma arguments first value
+						-> (Stack with: aValidPragma arguments first value) ])
+				asDictionary
 ]
 
 { #category : #config }
@@ -35,7 +58,8 @@ PPTGeneratorVisitor >> configureLocalIgnoring: aRuleMethod [
 PPTGeneratorVisitor >> configureOn: aRuleMethod [
 	self configureReifications: aRuleMethod.
 	self configureRenaming: aRuleMethod.
-	self configureLocalIgnoring: aRuleMethod
+	self configureLocalIgnoring: aRuleMethod.
+	self configureAknowledgePresence: aRuleMethod
 ]
 
 { #category : #config }
@@ -132,6 +156,11 @@ PPTGeneratorVisitor >> ruleRenaming [
 { #category : #accessing }
 PPTGeneratorVisitor >> ruleRenaming: anObject [
 	ruleRenaming := anObject
+]
+
+{ #category : #config }
+PPTGeneratorVisitor >> shouldAknowledgePresenceOf: aToken [
+	^ self aknowledgePresence includesKey: aToken
 ]
 
 { #category : #config }
