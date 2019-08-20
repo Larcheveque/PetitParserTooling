@@ -10,15 +10,30 @@ Class {
 }
 
 { #category : #testing }
+PPTAbstractRuleStructure >> ensureInteresting [
+	self isNotInteresting
+		ifTrue: [ PPTEmptyASTNode new signal ].
+	^ self
+]
+
+{ #category : #testing }
+PPTAbstractRuleStructure >> isInteresting [
+	^ self isNotInteresting not
+]
+
+{ #category : #testing }
 PPTAbstractRuleStructure >> isLeaf [
 	^ false
 ]
 
 { #category : #testing }
-PPTAbstractRuleStructure >> methodCodeForProductionName: aProductionName [
-	^ String
-		streamContents:
-			[ :stream | (self obtainCodeRepresentation: (PPTCodeProduction productionName: aProductionName)) serializeOn: stream ]
+PPTAbstractRuleStructure >> isNotInteresting [
+	^ false
+]
+
+{ #category : #testing }
+PPTAbstractRuleStructure >> isToken [
+	^ false
 ]
 
 { #category : #serialization }

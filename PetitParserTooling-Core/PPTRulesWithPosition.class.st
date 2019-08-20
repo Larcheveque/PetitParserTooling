@@ -10,7 +10,7 @@ Class {
 { #category : #'instance creation' }
 PPTRulesWithPosition class >> createFrom: anArray [
 	^ anArray
-		ifEmpty: [ nil ]
+		ifEmpty: [ PPTRuleToIgnore new ]
 		ifNotEmpty: [ self new
 				rulesWithPosition: anArray;
 				yourself ]
