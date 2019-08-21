@@ -32,6 +32,11 @@ PPTTokenCheck >> optional [
 	^ self
 ]
 
+{ #category : #serialization }
+PPTTokenCheck >> pluralized [
+	PPTInvalidAcknowledgeUsage signalForToken: self token
+]
+
 { #category : #accessing }
 PPTTokenCheck >> token [
 	^ token

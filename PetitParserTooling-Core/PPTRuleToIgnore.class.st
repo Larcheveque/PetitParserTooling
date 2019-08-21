@@ -11,5 +11,7 @@ PPTRuleToIgnore >> isNotInteresting [
 
 { #category : #serialization }
 PPTRuleToIgnore >> obtainCodeRepresentation: aPPTCode [
-	^ self error: 'We should never be there, this object is a null pattern that should be eliminated when we ask for the code representation'
+	^ self
+		error:
+			'We should never be there, this object is a null pattern that should be eliminated when we ask for the code representation'
 ]
