@@ -31,11 +31,11 @@ PPTParserGenerationTest >> setUp [
 ]
 
 { #category : #'as yet unclassified' }
-PPTParserGenerationTest >> testAknowledgePresence [
+PPTParserGenerationTest >> testAcknowledgePresence [
 	self
 		rule:
 			'myRule
-	<aknowledgePresence: #aToken>
+	<acknowledgePresence: #aToken>
 	^ ruleA, ''aToken'' parser optional'
 		shouldProduceParser:
 			'myRule
@@ -84,12 +84,12 @@ PPTParserGenerationTest >> testIgnore [
 ]
 
 { #category : #'as yet unclassified' }
-PPTParserGenerationTest >> testInvalidAknowledgePresence [
+PPTParserGenerationTest >> testInvalidAcknowledgePresence [
 	self
 		should: [ self
 				rule:
 					'myRule
-			<aknowledgePresence: #aToken>
+			<acknowledgePresence: #aToken>
 	^ ruleA, (ruleB, ''aToken'' parser optional) plus'
 				shouldProduceParser: '' ]
 		raise: PPTInvalidAcknowledgeUsage
@@ -115,7 +115,7 @@ PPTParserGenerationTest >> testKeepPositionPlus [
 ]
 
 { #category : #'as yet unclassified' }
-PPTParserGenerationTest >> testNoAknowledgePresence [
+PPTParserGenerationTest >> testNoAcknowledgePresence [
 	self
 		rule:
 			'myRule

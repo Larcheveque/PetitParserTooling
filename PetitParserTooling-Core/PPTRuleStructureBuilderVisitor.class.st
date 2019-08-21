@@ -119,7 +119,7 @@ PPTRuleStructureBuilderVisitor >> visitOptional: aPP2OptionalNode [
 						rule: result;
 						yourself ]
 				ifTrue: [ (result isToken
-						and: [ self shouldAknowledgePresenceOf: result token ])
+						and: [ self shouldAcknowledgePresenceOf: result token ])
 						ifTrue: [ PPTRuleOptional new
 								rule: result;
 								yourself ]
