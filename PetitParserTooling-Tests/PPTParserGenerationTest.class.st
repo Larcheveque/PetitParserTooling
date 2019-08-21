@@ -84,6 +84,18 @@ PPTParserGenerationTest >> testIgnore [
 ]
 
 { #category : #'as yet unclassified' }
+PPTParserGenerationTest >> testInvalidAknowledgePresence [
+	self
+		should: [ self
+				rule:
+					'myRule
+			<aknowledgePresence: #aToken>
+	^ ruleA, (ruleB, ''aToken'' parser optional) plus'
+				shouldProduceParser: '' ]
+		raise: PPTInvalidAcknowledgeUsage
+]
+
+{ #category : #'as yet unclassified' }
 PPTParserGenerationTest >> testKeepPositionPlus [
 	strategy keepPositions: true.
 	self
