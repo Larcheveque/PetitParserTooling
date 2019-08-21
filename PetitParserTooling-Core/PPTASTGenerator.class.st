@@ -121,7 +121,8 @@ PPTASTGenerator class >> createVisitingMethodForRule: aRule ruleStructure: aPPTR
 	'
 						join:
 							(aPPTRule allAssignations
-								collect: [ :anAssignation | 
+								select: #shouldGenerationBeVisited
+								thenCollect: [ :anAssignation | 
 									'self visit'
 										,
 											(anAssignation isPluralized

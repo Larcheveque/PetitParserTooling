@@ -9,6 +9,11 @@ Class {
 }
 
 { #category : #accessing }
+PPTTokenCheck >> allAssignations [
+	^ { self }
+]
+
+{ #category : #accessing }
 PPTTokenCheck >> checkedNode [
 	^ checkedNode
 ]
@@ -16,6 +21,11 @@ PPTTokenCheck >> checkedNode [
 { #category : #accessing }
 PPTTokenCheck >> checkedNode: anObject [
 	checkedNode := anObject
+]
+
+{ #category : #naming }
+PPTTokenCheck >> finalName [
+	^ self token
 ]
 
 { #category : #pcg }

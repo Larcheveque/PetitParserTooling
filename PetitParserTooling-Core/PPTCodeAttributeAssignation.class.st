@@ -102,3 +102,8 @@ PPTCodeAttributeAssignation >> serializeWithOpeningBracketOn: aStream [
 	aStream nextPutAll: ': ('.
 	self assignedNode serializeOn: aStream
 ]
+
+{ #category : #serialization }
+PPTCodeAttributeAssignation >> shouldGenerationBeVisited [
+	^ true
+]

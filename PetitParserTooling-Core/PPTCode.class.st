@@ -43,3 +43,9 @@ PPTCode >> optional [
 PPTCode >> pluralized [
 	^ self subclassResponsibility 
 ]
+
+{ #category : #serialization }
+PPTCode >> shouldGenerationBeVisited [
+	^ false
+	
+]
