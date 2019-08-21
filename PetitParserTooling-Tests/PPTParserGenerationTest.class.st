@@ -86,7 +86,6 @@ PPTParserGenerationTest >> testAtPositionPlusAtPosition [
 
 { #category : #'as yet unclassified' }
 PPTParserGenerationTest >> testIgnore [
-	"visitor ruleLocalIgnoring add: #toIgnore".
 	self
 		rule:
 			'myRule
