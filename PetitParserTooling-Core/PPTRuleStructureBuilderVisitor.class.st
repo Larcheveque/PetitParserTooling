@@ -145,8 +145,13 @@ PPTRuleStructureBuilderVisitor >> visitPredicateObject: aPP2PredicateObjectNode 
 ]
 
 { #category : #visit }
-PPTRuleStructureBuilderVisitor >> visitPredicateSequence: aPP2PredicateSequenceNode [ 
-	^ PPTRuleToIgnore new
+PPTRuleStructureBuilderVisitor >> visitPredicateSequence: aPP2PredicateSequenceNode [
+	^ self acknowledgePresence keys
+		detect:
+			[ :anAcknowledgePresence | aPP2PredicateSequenceNode matches: anAcknowledgePresence ]
+		ifFound:
+			[ :anAcknowledgePresence | PPTRuleToken literal: anAcknowledgePresence ]
+		ifNone: [ PPTRuleToIgnore new ]
 ]
 
 { #category : #visit }

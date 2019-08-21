@@ -49,6 +49,25 @@ PPTParserGenerationTest >> testAcknowledgePresence [
 ]
 
 { #category : #'as yet unclassified' }
+PPTParserGenerationTest >> testAcknowledgePresenceCaseInsensitiveInTrim [
+	self
+		rule:
+			'executeProcedure
+	<rename: #identifier into: #procedureName>
+	<acknowledgePresence: #immediate>
+	^ ''execute'' token , ''immediate'' parser caseInsensitive trim optional,  identifier trim'
+		shouldProduceParser:
+			'executeProcedure
+	<generated>
+	^ super executeProcedure
+		==> [ :production | 
+			ASTNodeExecuteProcedure new
+				immediate: (production at: 2) notNil;
+				procedureName: (production at: 3);
+				yourself ]'
+]
+
+{ #category : #'as yet unclassified' }
 PPTParserGenerationTest >> testAtPositionPlusAtPosition [
 	self
 		rule:
