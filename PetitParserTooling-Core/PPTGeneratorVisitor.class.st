@@ -124,7 +124,7 @@ PPTGeneratorVisitor >> isASeparatedBy: aPP2ActionNode [
 
 	^ [ aPP2ActionNode child children second child children second
 		= aPP2ActionNode child children first ]
-		on: MessageNotUnderstood
+		on: MessageNotUnderstood, SubscriptOutOfBounds 
 		do: [ false ]
 ]
 
