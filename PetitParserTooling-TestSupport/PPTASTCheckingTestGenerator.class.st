@@ -5,6 +5,24 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+PPTASTCheckingTestGenerator >> ensureTestClassFor: aParserClass inPackage: parserTestClassPackage [
+	| testParserClassName testParserClass |
+	testParserClassName := (aParserClass name , #Test) asSymbol.
+	testParserClass := [ self class environment at: testParserClassName ]
+		on: NotFound
+		do: [ PP2CompositeNodeTest
+				subclass: testParserClassName
+				instanceVariableNames: ''
+				classVariableNames: ''
+				package: parserTestClassPackage ].
+	(PCGMethodNode selector: #parserClass)
+		bodyBlock: [ :body | body << aParserClass name asPCGGlobal returnIt ];
+		protocol: #accessing;
+		installOn: testParserClass.
+	^ testParserClass
+]
+
+{ #category : #'as yet unclassified' }
 PPTASTCheckingTestGenerator >> generateAllTestsFor: aParserClass inPackage: parserTestClassPackage fromTestClass: aTestClass [
 	| tests query testInstance testClass |
 	tests := OrderedCollection new.
