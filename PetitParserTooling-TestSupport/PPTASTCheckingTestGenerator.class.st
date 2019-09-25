@@ -42,6 +42,30 @@ PPTASTCheckingTestGenerator >> generateAllTestsFor: aParserClass inPackage: pars
 						installOn: testClass ] ]
 ]
 
+{ #category : #generation }
+PPTASTCheckingTestGenerator >> obtainPCGStoreOnFor: aPWBASTNode [
+	| cascade |
+	[ ^ aPWBASTNode asPCG ]
+		on: MessageNotUnderstood
+		do: [  ].
+	aPWBASTNode class = OrderedCollection
+		ifTrue: [ ^ #OrderedCollection asPCGGlobal
+				receiveMessage: #withAll:
+				with:
+					(PCGArrayNode
+						statements: (aPWBASTNode collect: [ :e | self obtainPCGStoreOnFor: e ])) ].
+	cascade := (aPWBASTNode class name asPCGGlobal receiveMessage: #new)
+		asCascadeTarget.
+	aPWBASTNode class instanceVariables
+		do: [ :instanceVariableName | 
+			cascade
+				receiveMessage: (instanceVariableName , ':') asSymbol
+				with:
+					(self obtainPCGStoreOnFor: (aPWBASTNode perform: instanceVariableName)) ].
+	cascade receiveMessage: #yourself.
+	^ cascade
+]
+
 { #category : #'as yet unclassified' }
 PPTASTCheckingTestGenerator >> storeMethod [
 	((PCGMethodNode selector: #testOption1) bodyBlock: [ :body | body << (#self asPCGNode receiveMessage: #assert:equals: with: (PCGRealASTToPCGConverter visit: self) with: (((PWBDataWindowParserTest new setUp) perform: self selector with:  self arguments first value with: self arguments second value )) storeString asPCG)]) sourceCode
