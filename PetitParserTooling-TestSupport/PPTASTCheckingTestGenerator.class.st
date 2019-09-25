@@ -42,7 +42,8 @@ PPTASTCheckingTestGenerator >> generateAllTestsFor: aParserClass inPackage: pars
 		keysAndValuesDo: [ :ruleName :testsForRule | 
 			testsForRule
 				doWithIndex: [ :test :index | 
-					((PCGMethodNode
+					| pcgStruct |
+					pcgStruct := (PCGMethodNode
 						selector: (#test , ruleName capitalized , index asString) asSymbol)
 						bodyBlock: [ :body | 
 							body
@@ -56,8 +57,8 @@ PPTASTCheckingTestGenerator >> generateAllTestsFor: aParserClass inPackage: pars
 													(testInstance
 														perform: test selector
 														with: test arguments first value
-														with: test arguments second value))) ])
-						installOn: testClass ] ]
+														with: test arguments second value))) ].
+					[pcgStruct installOn: testClass] on: Error do: [  ] ] ]
 ]
 
 { #category : #generation }
