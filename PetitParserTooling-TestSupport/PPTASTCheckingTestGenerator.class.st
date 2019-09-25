@@ -72,6 +72,9 @@ PPTASTCheckingTestGenerator >> obtainPCGStoreOnFor: aPWBASTNode [
 				with:
 					(PCGArrayNode
 						statements: (aPWBASTNode collect: [ :e | self obtainPCGStoreOnFor: e ])) ].
+	aPWBASTNode class = Array
+		ifTrue: [ ^ PCGArrayNode
+				statements: (aPWBASTNode collect: [ :e | self obtainPCGStoreOnFor: e ]) ].
 	cascade := (aPWBASTNode class name asPCGGlobal receiveMessage: #new)
 		asCascadeTarget.
 	aPWBASTNode class instanceVariables
