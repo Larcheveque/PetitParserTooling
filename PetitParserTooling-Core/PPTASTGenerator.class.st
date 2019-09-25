@@ -25,7 +25,10 @@ PPTASTGenerator class >> createASTNodeForRule: aRule ruleStructure: aRuleStructu
 	<generated>
 	^ aVisitor visit' , astClass name , ': self'
 		classified: #visiting.
-	aGenerationStrategy createPositionsInClass: astClass
+	aGenerationStrategy createPositionsInClass: astClass.
+	(RBGenerateEqualHashRefactoring
+		className: astClass
+		variables: astClass instanceVariables) execute
 ]
 
 { #category : #generation }
@@ -46,8 +49,10 @@ PPTASTGenerator class >> createFlattenNodeForRule: aRule generationStrategy: aPP
 		variable: aRule
 		class: astClass
 		classVariable: false) execute.
-	aPPASTGeneratorStrategy
-				createPositionsInClass: astClass.
+	aPPASTGeneratorStrategy createPositionsInClass: astClass.
+	(RBGenerateEqualHashRefactoring
+		className: astClass
+		variables: astClass instanceVariables) execute
 ]
 
 { #category : #generation }
