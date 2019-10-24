@@ -43,7 +43,7 @@ PPTASTCheckingTestGenerator >> generateAllTestsFor: aParserClass inPackage: pars
 			testsForRule
 				doWithIndex: [ :test :index | 
 					| pcgStruct |
-					pcgStruct := (PCGMethodNode
+					[ pcgStruct := (PCGMethodNode
 						selector: (#test , ruleName capitalized , index asString) asSymbol)
 						bodyBlock: [ :body | 
 							body
@@ -58,7 +58,11 @@ PPTASTCheckingTestGenerator >> generateAllTestsFor: aParserClass inPackage: pars
 														perform: test selector
 														with: test arguments first value
 														with: test arguments second value))) ].
-					[pcgStruct installOn: testClass] on: Error do: [  ] ] ]
+					[ pcgStruct installOn: testClass ]
+						on: Error
+						do: [  ] ]
+						on: TestFailure
+						do: [  ] ] ]
 ]
 
 { #category : #generation }
@@ -78,7 +82,7 @@ PPTASTCheckingTestGenerator >> obtainPCGStoreOnFor: aPWBASTNode [
 				statements: (aPWBASTNode collect: [ :e | self obtainPCGStoreOnFor: e ]) ].
 	cascade := (aPWBASTNode class name asPCGGlobal receiveMessage: #new)
 		asCascadeTarget.
-	aPWBASTNode class instanceVariables
+	aPWBASTNode class instVarNames
 		do: [ :instanceVariableName | 
 			cascade
 				receiveMessage: (instanceVariableName , ':') asSymbol
