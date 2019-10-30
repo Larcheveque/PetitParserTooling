@@ -25,7 +25,7 @@ PPTASTGeneratorStrategy class >> pwbStrategy [
 	^ self new
 		rulesToFlatten:
 			#(identifier basicType booleanValue number parametrizedType string constant defaultVariable exitStatement uncheckedIdentifier defaultEventType graphicComponentToken generatorToken formatType this arrayDesignation argumentOption continueStatement time);
-		rulesToIgnore: #(blank spaces reservedKeyword newlines identifierCharacter);
+		rulesToIgnore: #(blank blanks spaces reservedKeyword newlines identifierCharacter);
 		parserPackage: #'PowerBuilder-Parser-Core';
 		parserClass: #PWBDataWindowParser;
 		astPackage: #'PowerBuilder-Parser-AST';
@@ -41,7 +41,7 @@ PPTASTGeneratorStrategy class >> pwbUserObjectStrategy [
 	^ self new
 		rulesToFlatten:
 			#(identifier basicType booleanValue number parametrizedType string constant defaultVariable exitStatement uncheckedIdentifier defaultEventType graphicComponentToken generatorToken formatType accessModifier sqlQuery endForward this arrayDesignation argumentOption continueStatement time);
-		rulesToIgnore: #(blank spaces reservedKeyword newlines identifierCharacter);
+		rulesToIgnore: #(blank blanks spaces reservedKeyword newlines identifierCharacter);
 		parserPackage: #'PowerBuilder-Parser-Core';
 		astPackage: #'PowerBuilder-Parser-AST';
 		astPrefix: #PWBAST;
