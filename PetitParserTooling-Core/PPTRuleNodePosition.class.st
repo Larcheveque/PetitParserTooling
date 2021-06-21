@@ -45,3 +45,8 @@ PPTRuleNodePosition >> position [
 PPTRuleNodePosition >> position: anObject [
 	position := anObject
 ]
+
+{ #category : #'not sure' }
+PPTRuleNodePosition >> ruleName [
+	^self node ruleName
+]

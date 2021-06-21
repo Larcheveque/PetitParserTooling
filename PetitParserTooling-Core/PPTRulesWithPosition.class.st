@@ -30,6 +30,12 @@ PPTRulesWithPosition >> obtainCodeRepresentation: aPPTCode [
 					[ :aRuleWithPosition | aRuleWithPosition obtainCodeRepresentation: aPPTCode ])
 ]
 
+{ #category : #'not sure' }
+PPTRulesWithPosition >> ruleName [
+	self assert: self rulesWithPosition size = 1  description: 'It is only possible to have one named rule in a sequence'.
+	^ self rulesWithPosition anyOne ruleName
+]
+
 { #category : #accessing }
 PPTRulesWithPosition >> rulesWithPosition [
 	^ rulesWithPosition
