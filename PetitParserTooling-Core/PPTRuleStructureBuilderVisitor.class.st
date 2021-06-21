@@ -71,6 +71,11 @@ PPTRuleStructureBuilderVisitor >> visitDelegate: aPP2DelegateNode [
 								ifAbsent: [ aPP2DelegateNode name ]) ] ]
 ]
 
+{ #category : #visiting }
+PPTRuleStructureBuilderVisitor >> visitEpsilon: aPP2EpsilonNode [ 
+	^ PPTRuleToIgnore new
+]
+
 { #category : #visit }
 PPTRuleStructureBuilderVisitor >> visitFlatten: aPP2FlattenNode [ 
 	^ aPP2FlattenNode child accept: self
@@ -152,6 +157,11 @@ PPTRuleStructureBuilderVisitor >> visitPredicateSequence: aPP2PredicateSequenceN
 		ifFound:
 			[ :anAcknowledgePresence | PPTRuleToken literal: anAcknowledgePresence ]
 		ifNone: [ PPTRuleToIgnore new ]
+]
+
+{ #category : #visiting }
+PPTRuleStructureBuilderVisitor >> visitSea: aPP2SeaNode [ 
+	^ aPP2SeaNode island accept: self
 ]
 
 { #category : #visit }

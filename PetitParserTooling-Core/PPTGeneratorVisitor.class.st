@@ -167,3 +167,8 @@ PPTGeneratorVisitor >> shouldAcknowledgePresenceOf: aToken [
 PPTGeneratorVisitor >> shouldBeLocalyIgnored: aRuleName [
 	^ self ruleLocalIgnoring includes: aRuleName
 ]
+
+{ #category : #visiting }
+PPTGeneratorVisitor >> visitMapping: aPP2MappingNode [ 
+	^ aPP2MappingNode child accept: self
+]
