@@ -25,6 +25,11 @@ PPTRuleSeparatedBy >> rule: anObject [
 	rule := anObject
 ]
 
+{ #category : #'not sure' }
+PPTRuleSeparatedBy >> ruleName [
+	^ self rule ruleName
+]
+
 { #category : #accessing }
 PPTRuleSeparatedBy >> separator [
 	^ separator
